@@ -272,12 +272,12 @@
  }
  .data-table th {
  position: sticky; top: 0; z-index: 5;
- background: linear-gradient(#7da3cc, #5e88b8);
+ background: linear-gradient(#2a5d96, #1d4d84);
  padding: 5px 8px; text-align: left;
  font-size: 10px; font-weight: 700; letter-spacing: 0;
  text-transform: none; color: #ffffff;
- border-bottom: 1px solid #446d99;
- border-right: 1px solid #7ea0c4;
+ border-bottom: 1px solid #123b73;
+ border-right: 1px solid #3c71a3;
  white-space: nowrap; cursor: pointer; user-select: none;
  }
  .data-table th:hover { color: #ffffff; filter: brightness(0.98); }
@@ -1032,7 +1032,7 @@ function toggleFilter(el, val) {
 function renderClaims(data) {
   const statusColors = {paid:'paid',denied:'denied',pending:'pending'};
   document.getElementById('claimsBody').innerHTML = data.map((c,i) => `
-    <tr class="${i===0||i===1||i===2?'selected':''}" onclick="selectClaimRow(this)">
+    <tr onclick="selectClaimRow(this)">
       <td>${c.dos}</td>
       <td style="font-family:var(--mono)">${c.claim}</td>
       <td>${c.prov}</td>
@@ -1112,7 +1112,7 @@ function renderGaps() {
         <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
       </div>
       <div class="gap-action">
-        <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
+        <button class="resolve-btn" onclick="editGap(${i})">🖊</button>
         <button class="dismiss-btn" onclick="dismissGap(${i})">✕</button>
       </div>
     </div>
@@ -1173,6 +1173,19 @@ function addCPTGapEntry() {
   showToast('CPT Gap added');
 }
 function removeCPTGap(i) { cptGapData.splice(i,1); renderCPTGaps(); }
+
+// ── EDIT ACTIONS ──
+function expandCodingPanel() {
+  const panel = document.querySelector('.right-panel');
+  if (!panel.classList.contains('fullscreen')) {
+    const btn = document.querySelector('.tab-bar button.icon-btn');
+    if (btn) toggleRightPanelFullscreen(btn);
+  }
+}
+function editICD(i) { expandCodingPanel(); showToast('Editing ICD ' + hccData[i].icd); }
+function editGap(i) { expandCodingPanel(); showToast('Editing ICD Gap ' + gapData[i].icd); }
+function editCPT(i) { expandCodingPanel(); showToast('Editing CPT ' + cptData[i].cpt); }
+function editCPTGap(i) { expandCodingPanel(); showToast('Editing CPT Gap ' + cptGapData[i].cpt); }
 
 // ── TABS ──
 const tabs = ['hcc','gaps','cpt','cptgaps'];
