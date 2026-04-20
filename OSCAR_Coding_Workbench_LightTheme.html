@@ -418,12 +418,12 @@
  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #edf4fb; }
  /* Gap entries */
  .gap-entry {
- background: #fff8f8; border: 1px solid #efc2c2;
+ background: #f4f8fd; border: 1px solid #cddbf0;
  border-radius: 3px; padding: 4px 6px; margin-bottom: 3px;
  display: flex; gap: 6px; align-items: center;
  }
  .gap-entry.resolved { background: #eef9ee; border-color: #c0dec1; }
- .gap-code { font-family: var(--sans); font-size: 10px; font-weight: 700; color: var(--danger); min-width: 72px; }
+ .gap-code { font-family: var(--sans); font-size: 10px; font-weight: 700; color: var(--accent2); min-width: 72px; }
  .gap-entry.resolved .gap-code { color: var(--success); }
  .gap-desc { font-size: 10px; color: var(--text2); flex: 1; }
  .gap-action { display: flex; gap: 3px; }
@@ -666,9 +666,9 @@
     <!-- Tab bar -->
     <div class="tab-bar">
       <div class="tab-btn active" onclick="switchTab(this,'hcc')">ICD <span class="tab-count" id="hccCount">12</span></div>
-      <div class="tab-btn" onclick="switchTab(this,'gaps')">ICD Gaps <span class="tab-count" id="gapCount" style="background:rgba(247,100,100,0.2);color:var(--danger)">7</span></div>
+      <div class="tab-btn" onclick="switchTab(this,'gaps')">ICD Gaps <span class="tab-count" id="gapCount">7</span></div>
       <div class="tab-btn" onclick="switchTab(this,'cpt')">CPT <span class="tab-count" id="cptCount">28</span></div>
-      <div class="tab-btn" onclick="switchTab(this,'cptgaps')">CPT Gaps <span class="tab-count" id="cptGapCount" style="background:rgba(247,147,79,0.2);color:var(--accent3)">4</span></div>
+      <div class="tab-btn" onclick="switchTab(this,'cptgaps')">CPT Gaps <span class="tab-count" id="cptGapCount">4</span></div>
       <div style="margin-left: auto; display: flex; align-items: center; padding-right: 8px;">
         <button class="icon-btn" onclick="toggleRightPanelFullscreen(this)" data-tip="Expand to Full Screen" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: #fff; box-shadow: none;">⛶</button>
       </div>
@@ -692,7 +692,7 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">🏷</span>
-            <span class="section-label" style="color:var(--accent)">ICD CODES</span>
+            <span class="section-label" style="color:var(--accent2)">ICD CODES</span>
             <span class="badge blue" style="font-size:9px">12</span>
           </div>
           <div class="section-body" id="hccBody">
@@ -757,8 +757,8 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">⚠</span>
-            <span class="section-label" style="color:var(--danger)">ICD Gaps</span>
-            <span class="badge pink" style="font-size:9px">7</span>
+            <span class="section-label" style="color:var(--accent2)">ICD Gaps</span>
+            <span class="badge blue" style="font-size:9px">7</span>
           </div>
           <div class="section-body" id="gapsBody">
             <div class="form-row cols-3" style="margin-bottom:6px">
@@ -800,7 +800,7 @@
               </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn" style="width:100%;justify-content:center;border-color:var(--danger);color:var(--danger)" onclick="addGapEntry()">+ Add Gap</button>
+                <button class="btn primary" style="width:100%;justify-content:center" onclick="addGapEntry()">+ Add Gap</button>
               </div>
             </div>
             <div id="gapEntries"></div>
@@ -814,8 +814,8 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">💊</span>
-            <span class="section-label" style="color:var(--accent3)">CPT Codes</span>
-            <span class="badge orange" style="font-size:9px">28</span>
+            <span class="section-label" style="color:var(--accent2)">CPT Codes</span>
+            <span class="badge blue" style="font-size:9px">28</span>
           </div>
           <div class="section-body">
             <div class="form-row cols-4" style="margin-bottom:6px">
@@ -861,7 +861,7 @@
               </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn" style="width:100%;justify-content:center;border-color:var(--accent3);color:var(--accent3)" onclick="addCPTEntry()">+ Add CPT</button>
+                <button class="btn primary" style="width:100%;justify-content:center" onclick="addCPTEntry()">+ Add CPT</button>
               </div>
             </div>
             <div class="code-entries" id="cptEntries"></div>
@@ -875,8 +875,8 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">🔍</span>
-            <span class="section-label" style="color:var(--accent3)">CPT Gaps</span>
-            <span class="badge orange" style="font-size:9px">4</span>
+            <span class="section-label" style="color:var(--accent2)">CPT Gaps</span>
+            <span class="badge blue" style="font-size:9px">4</span>
           </div>
           <div class="section-body">
             <div class="form-row cols-3" style="margin-bottom:6px">
@@ -906,7 +906,7 @@
             <div class="form-row" style="margin-bottom:6px">
               <div style="display:flex;gap:4px">
                 <select class="form-select" style="flex:1"><option>Priority: High</option><option>Priority: Medium</option><option>Priority: Low</option></select>
-                <button class="btn" style="border-color:var(--accent3);color:var(--accent3)" onclick="addCPTGapEntry()">+ Add CPT Gap</button>
+                <button class="btn primary" onclick="addCPTGapEntry()">+ Add CPT Gap</button>
               </div>
             </div>
             <div id="cptGapEntries"></div>
@@ -1078,7 +1078,7 @@ function sortTable(col) { showToast(`Sorted by ${col}`); }
 function renderHCC() {
   document.getElementById('hccEntries').innerHTML = hccData.map((h,i) => `
     <div class="code-entry">
-      <span class="code-tag" style="color:var(--accent)">${h.icd}</span>
+      <span class="code-tag" style="color:var(--accent2)">${h.icd}</span>
       <span class="code-desc">${h.desc}</span>
       <span class="code-hcc">HCC${h.hcc}</span>
       <span class="code-raf">+${h.raf}</span>
@@ -1108,7 +1108,7 @@ function lookupICD(val) {
 function renderGaps() {
   document.getElementById('gapEntries').innerHTML = gapData.map((g,i) => `
     <div class="gap-entry ${i===2?'resolved':''}">
-      <span class="gap-code">${g.icd}</span>
+      <span class="gap-code" style="color:var(--accent2)">${g.icd}</span>
       <div style="flex:1">
         <div style="font-size:10px;color:var(--text)">${g.desc}</div>
         <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
@@ -1133,7 +1133,7 @@ function dismissGap(i) { gapData.splice(i,1); renderGaps(); showToast('Gap dismi
 function renderCPT() {
   document.getElementById('cptEntries').innerHTML = cptData.map((c,i) => `
     <div class="code-entry">
-      <span class="code-tag" style="color:var(--accent3)">${c.cpt}</span>
+      <span class="code-tag" style="color:var(--accent2)">${c.cpt}</span>
       <span class="code-desc">${c.desc}</span>
       ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod}</span>`:''}
       <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
@@ -1156,7 +1156,7 @@ function removeCPT(i) { cptData.splice(i,1); renderCPT(); }
 function renderCPTGaps() {
   document.getElementById('cptGapEntries').innerHTML = cptGapData.map((g,i) => `
     <div class="gap-entry">
-      <span class="gap-code" style="color:var(--accent3)">${g.cpt}</span>
+      <span class="gap-code" style="color:var(--accent2)">${g.cpt}</span>
       <div style="flex:1">
         <div style="font-size:10px;color:var(--text)">${g.desc}</div>
         <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
