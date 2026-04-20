@@ -534,12 +534,6 @@
     <div class="enc-search">
       <input class="search-input" placeholder="🔍  Search DOS, provider, ICD..." oninput="filterEnc(this.value)">
     </div>
-    <div class="enc-filters" id="encFilters">
-      <span class="filter-chip on" onclick="toggleFilter(this,'All')">All</span>
-      <span class="filter-chip" onclick="toggleFilter(this,'New')">New</span>
-      <span class="filter-chip" onclick="toggleFilter(this,'Pending')">Pending</span>
-      <span class="filter-chip" onclick="toggleFilter(this,'Done')">Done</span>
-    </div>
     <div class="enc-list" id="encList"></div>
   </div>
 
@@ -607,7 +601,6 @@
           <span class="filter-chip" onclick="toggleFilter(this,'Pending')">Pending</span>
           <button class="btn" onclick="toggleGroupBy()">⊞ Group: <span id="groupLabel">DOS</span></button>
           <button class="btn" onclick="showToast('Columns configured')">⚙ Cols</button>
-          <button class="btn" onclick="showToast('Claims exported')">↓</button>
         </div>
         <div class="data-table-wrap">
           <table class="data-table" id="claimsTable">
@@ -639,7 +632,7 @@
   <div class="right-panel">
     <!-- Tab bar -->
     <div class="tab-bar">
-      <div class="tab-btn active" onclick="switchTab(this,'hcc')">HCCs <span class="tab-count" id="hccCount">12</span></div>
+      <div class="tab-btn active" onclick="switchTab(this,'hcc')">ICD <span class="tab-count" id="hccCount">12</span></div>
       <div class="tab-btn" onclick="switchTab(this,'gaps')">ICD Gaps <span class="tab-count" id="gapCount" style="background:rgba(247,100,100,0.2);color:var(--danger)">7</span></div>
       <div class="tab-btn" onclick="switchTab(this,'cpt')">CPT <span class="tab-count" id="cptCount">28</span></div>
       <div class="tab-btn" onclick="switchTab(this,'cptgaps')">CPT Gaps <span class="tab-count" id="cptGapCount" style="background:rgba(247,147,79,0.2);color:var(--accent3)">4</span></div>
@@ -663,13 +656,8 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">🏷</span>
-            <span class="section-label" style="color:var(--accent)">Available HCCs</span>
+            <span class="section-label" style="color:var(--accent)">ICD CODES</span>
             <span class="badge blue" style="font-size:9px">12</span>
-            <div class="section-actions">
-              <div class="icon-btn" data-tip="Add HCC" onclick="event.stopPropagation();addHCC()">＋</div>
-              <div class="icon-btn" data-tip="Import from PDF" onclick="event.stopPropagation();showToast('Extracting ICDs from PDF...')">⤵</div>
-              <div class="icon-btn" data-tip="Validate all" onclick="event.stopPropagation();showToast('All HCCs validated')">✓</div>
-            </div>
           </div>
           <div class="section-body" id="hccBody">
             <!-- HCC add form -->
@@ -732,12 +720,8 @@
           <div class="section-header" onclick="toggleSection(this)">
             <span class="chevron open">▶</span>
             <span class="section-icon">⚠</span>
-            <span class="section-label" style="color:var(--danger)">ICD / HCC Gaps</span>
+            <span class="section-label" style="color:var(--danger)">ICD Gaps</span>
             <span class="badge pink" style="font-size:9px">7</span>
-            <div class="section-actions">
-              <div class="icon-btn" data-tip="Add gap" onclick="event.stopPropagation();addGapEntry()">＋</div>
-              <div class="icon-btn" data-tip="AI suggest gaps" onclick="event.stopPropagation();showToast('AI scanning for gaps...')">🤖</div>
-            </div>
           </div>
           <div class="section-body" id="gapsBody">
             <div class="form-row cols-3" style="margin-bottom:6px">
@@ -794,10 +778,6 @@
             <span class="section-icon">💊</span>
             <span class="section-label" style="color:var(--accent3)">CPT Codes</span>
             <span class="badge orange" style="font-size:9px">28</span>
-            <div class="section-actions">
-              <div class="icon-btn" data-tip="Add CPT" onclick="event.stopPropagation();addCPTEntry()">＋</div>
-              <div class="icon-btn" data-tip="Validate CPTs" onclick="event.stopPropagation();showToast('CPT validation complete')">✓</div>
-            </div>
           </div>
           <div class="section-body">
             <div class="form-row cols-4" style="margin-bottom:6px">
@@ -858,10 +838,6 @@
             <span class="section-icon">🔍</span>
             <span class="section-label" style="color:var(--accent3)">CPT Gaps</span>
             <span class="badge orange" style="font-size:9px">4</span>
-            <div class="section-actions">
-              <div class="icon-btn" data-tip="Add CPT gap" onclick="event.stopPropagation()">＋</div>
-              <div class="icon-btn" data-tip="AI scan" onclick="event.stopPropagation();showToast('Scanning for CPT gaps...')">🤖</div>
-            </div>
           </div>
           <div class="section-body">
             <div class="form-row cols-3" style="margin-bottom:6px">
@@ -903,35 +879,6 @@
 
     <!-- SUMMARY BAR -->
     <div class="summary-bar">
-      <!-- <div class="summary-item">
-        <div class="summary-val" style="color:var(--accent)">1.842</div>
-        <div class="summary-lbl">RAF Score</div>
-      </div>
-      <div class="summary-div"></div>
-      <div class="summary-item">
-        <div class="summary-val" style="color:var(--accent2)">12</div>
-        <div class="summary-lbl">HCCs</div>
-      </div>
-      <div class="summary-div"></div>
-      <div class="summary-item">
-        <div class="summary-val" style="color:var(--danger)">7</div>
-        <div class="summary-lbl">ICD Gaps</div>
-      </div>
-      <div class="summary-div"></div>
-      <div class="summary-item">
-        <div class="summary-val" style="color:var(--accent3)">28</div>
-        <div class="summary-lbl">CPTs</div>
-      </div>
-      <div class="summary-div"></div>
-      <div class="summary-item">
-        <div class="summary-val" style="color:var(--accent3)">4</div>
-        <div class="summary-lbl">CPT Gaps</div>
-      </div>
-      <div class="summary-div"></div>
-      <div class="summary-item">
-        <div class="summary-val" style="color:var(--accent5)">$42.8K</div>
-        <div class="summary-lbl">Claims</div>
-      </div> -->
       <div style="display:flex; gap:8px;">
         <button class="btn primary" onclick="showToast('Encounter submitted successfully')">Submit</button>
         <button class="btn primary" onclick="showToast('Encounter on hold successfully')">On Hold</button>
@@ -1017,7 +964,6 @@ function renderEncounters(filter='', statusFilter='All') {
   });
   el.innerHTML = filtered.map((e,i) => `
     <div class="enc-item ${i===5?'active':''}" onclick="selectEnc(this,'${e.id}','${e.dos}')">
-      <div class="enc-status ${e.status}"></div>
       <div class="enc-num">${e.id}</div>
       <div class="enc-dos">${e.dos}</div>
       <div class="enc-provider">${e.provider}</div>
@@ -1098,7 +1044,7 @@ function renderHCC() {
       <span class="code-hcc">HCC${h.hcc}</span>
       <span class="code-raf">+${h.raf}</span>
       <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${h.dos}</span>
-      <span style="font-size:9px;padding:1px 4px;border-radius:3px;background:${h.conf==='High'?'rgba(56,217,169,0.15)':'rgba(247,201,79,0.15)'};color:${h.conf==='High'?'var(--success)':'var(--warning)'}">${h.conf}</span>
+      <button class="resolve-btn" onclick="editICD(${i})">🖊</button>
       <span class="del-btn" onclick="removeHCC(${i})">✕</span>
     </div>
   `).join('');
@@ -1129,7 +1075,7 @@ function renderGaps() {
         <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
       </div>
       <div class="gap-action">
-        <button class="resolve-btn" onclick="resolveGap(${i})">✓ Resolve</button>
+        <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
         <button class="dismiss-btn" onclick="dismissGap(${i})">✕</button>
       </div>
     </div>
@@ -1152,7 +1098,7 @@ function renderCPT() {
       <span class="code-desc">${c.desc}</span>
       ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod}</span>`:''}
       <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
-      <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${c.dos}</span>
+      <button class="resolve-btn" onclick="editCPT(${i})">🖊</button>
       <span class="del-btn" onclick="removeCPT(${i})">✕</span>
     </div>
   `).join('');
@@ -1177,7 +1123,7 @@ function renderCPTGaps() {
         <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
       </div>
       <div class="gap-action">
-        <button class="resolve-btn" onclick="showToast('CPT gap resolved')">✓ Bill</button>
+        <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
         <button class="dismiss-btn" onclick="removeCPTGap(${i})">✕</button>
       </div>
     </div>
