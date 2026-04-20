@@ -102,6 +102,8 @@
  .btn:hover { background: linear-gradient(#ffffff, #d4dfef); border-color: #345f96; color: #123b73; }
  .btn.primary { background: linear-gradient(#fefefe, #d7e3f4); border-color: #6d88aa; color: #23466f; }
  .btn.primary:hover { background: linear-gradient(#ffffff, #ccdaee); }
+ .btn.blue { background: linear-gradient(#2a5d96, #1d4d84); border-color: #123b73; color: #ffffff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); }
+ .btn.blue:hover { background: linear-gradient(#346bad, #235896); color: #ffffff; border-color: #123b73; }
  .btn.success { background: linear-gradient(#fefefe, #d7e3f4); border-color: #6d88aa; color: #23466f; }
  .progress-ring { width: 28px; height: 28px; }
  /* ── MAIN LAYOUT ── */
@@ -647,7 +649,6 @@
                 <th onclick="sortTable('paid')">Paid $</th>
                 <th onclick="sortTable('status')">Status</th>
                 <th onclick="sortTable('payer')">Payer</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody id="claimsBody"></tbody>
@@ -917,11 +918,11 @@
     <!-- SUMMARY BAR -->
     <div class="summary-bar">
       <div style="display:flex; gap:8px;">
-        <button class="btn primary" onclick="showToast('Encounter submitted successfully')">Submit</button>
-        <button class="btn primary" onclick="showToast('Encounter on hold successfully')">On Hold</button>
-        <button class="btn primary" onclick="showToast('Encounter saved successfully')">Discard</button>
-        <button class="btn primary" onclick="showToast('Encounter saved successfully')">Suspend</button>
-        <button class="btn primary" onclick="showToast('Encounter notes')">Notes</button>
+        <button class="btn blue" onclick="showToast('Encounter submitted successfully')">Submit</button>
+        <button class="btn blue" onclick="showToast('Encounter on hold successfully')">On Hold</button>
+        <button class="btn blue" onclick="showToast('Encounter saved successfully')">Discard</button>
+        <button class="btn blue" onclick="showToast('Encounter saved successfully')">Suspend</button>
+        <button class="btn blue" onclick="showToast('Encounter notes')">Notes</button>
       </div>
     </div>
   </div>
@@ -1044,7 +1045,6 @@ function renderClaims(data) {
       <td class="cell-amt" style="color:${c.paid>0?'var(--success)':'var(--danger)'}">$${c.paid.toFixed(2)}</td>
       <td><span class="status-pill ${statusColors[c.status]}">${c.status.toUpperCase()}</span></td>
       <td>${c.payer}</td>
-      <td><button class="icon-btn" style="font-size:10px" onclick="linkClaim('${c.claim}')">🔗</button></td>
     </tr>
   `).join('');
 }
