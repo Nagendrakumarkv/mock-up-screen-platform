@@ -816,7 +816,7 @@
               </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn primary" style="width:100%;justify-content:center" onclick="addHCCEntry()">+ Add HCC</button>
+                <button class="btn primary" style="width:100%;justify-content:center" onclick="addHCCEntry()">+ Add ICD</button>
               </div>
             </div>
             <div class="code-entries" id="hccEntries"></div>
@@ -1221,7 +1221,7 @@ function renderHCC() {
   `).join('');
 }
 
-function addHCC() { showToast('Scroll to add HCC form'); }
+function addHCC() { showToast('Scroll to add ICD form'); }
 function addHCCEntry() {
   const icd = document.getElementById('newICD').value || 'Z87.891';
   const hcc = document.getElementById('newHCC').value || '0';
