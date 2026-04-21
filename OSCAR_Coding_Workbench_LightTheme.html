@@ -1224,15 +1224,38 @@ function renderHCC() {
           <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
             <div class="form-row cols-4" style="margin-bottom:6px">
               <div><div class="form-label">ICD-10</div><input class="form-control" id="editICD_icd" value="${h.icd}"></div>
-              <div><div class="form-label">HCC Cat</div><input class="form-control" id="editICD_hcc" value="${h.hcc}"></div>
-              <div><div class="form-label">RAF Wt</div><input class="form-control" id="editICD_raf" value="${h.raf}"></div>
-              <div><div class="form-label">DOS</div><input class="form-control" id="editICD_dos" value="${h.dos}"></div>
+              <div><div class="form-label">HCC Cat</div><input class="form-control" id="editICD_hcc" value="${h.hcc || ''}"></div>
+              <div><div class="form-label">RAF Wt</div><input class="form-control" id="editICD_raf" value="${h.raf || ''}"></div>
+              <div><div class="form-label">DOS</div><input class="form-control" id="editICD_dos" value="${h.dos || ''}"></div>
             </div>
-            <div class="form-row cols-2" style="margin-bottom:2px">
-              <div><div class="form-label">Description</div><input class="form-control" id="editICD_desc" value="${h.desc}"></div>
-              <div style="display:flex; align-items:flex-end; gap:6px; justify-content:flex-end;">
-                <button class="btn" style="padding:4px 12px" onclick="cancelEditICD()">Cancel</button>
-                <button class="btn primary" style="padding:4px 12px" onclick="updateICD(${i})">Update ICD</button>
+            <div class="form-row cols-2" style="margin-bottom:6px">
+              <div><div class="form-label">Description</div><input class="form-control" id="editICD_desc" value="${h.desc || ''}"></div>
+              <div>
+                <div class="form-label">Evidence Source</div>
+                <select class="form-select" id="editICD_src">
+                  <option ${h.src === 'PDF Page 1' ? 'selected' : ''}>PDF Page 1</option>
+                  <option ${h.src === 'Claims' ? 'selected' : ''}>Claims</option>
+                  <option ${h.src === 'Lab Result' ? 'selected' : ''}>Lab Result</option>
+                  <option ${h.src === 'Manual' ? 'selected' : ''}>Manual</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row cols-3" style="margin-bottom:2px">
+              <div>
+                <div class="form-label">Confidence</div>
+                <select class="form-select" id="editICD_conf">
+                  <option ${h.conf === 'High' ? 'selected' : ''}>High</option>
+                  <option ${h.conf === 'Medium' ? 'selected' : ''}>Medium</option>
+                  <option ${h.conf === 'Low' ? 'selected' : ''}>Low</option>
+                </select>
+              </div>
+              <div><div class="form-label">Coder Notes</div><input class="form-control" id="editICD_notes" value="${h.notes || ''}"></div>
+              <div>
+                <div class="form-label">&nbsp;</div>
+                <div style="display:flex; gap:6px;">
+                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditICD()">Cancel</button>
+                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateICD(${i})">Update ICD</button>
+                </div>
               </div>
             </div>
           </div>
@@ -1356,6 +1379,9 @@ function updateICD(i) {
   hccData[i].raf = document.getElementById('editICD_raf').value;
   hccData[i].dos = document.getElementById('editICD_dos').value;
   hccData[i].desc = document.getElementById('editICD_desc').value;
+  hccData[i].src = document.getElementById('editICD_src').value;
+  hccData[i].conf = document.getElementById('editICD_conf').value;
+  hccData[i].notes = document.getElementById('editICD_notes').value;
   editingICDIndex = -1;
   renderHCC();
   showToast('ICD updated successfully');
