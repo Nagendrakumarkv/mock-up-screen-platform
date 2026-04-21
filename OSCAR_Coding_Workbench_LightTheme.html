@@ -1292,20 +1292,72 @@ function lookupICD(val) {
 }
 
 // ── RENDER GAPS ──
+let editingGapIndex = -1;
 function renderGaps() {
-  document.getElementById('gapEntries').innerHTML = gapData.map((g,i) => `
-    <div class="gap-entry ${i===2?'resolved':''}">
-      <span class="gap-code" style="color:var(--accent2)">${g.icd}</span>
-      <div style="flex:1">
-        <div style="font-size:10px;color:var(--text)">${g.desc}</div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
+  document.getElementById('gapEntries').innerHTML = gapData.map((g,i) => {
+    if (i === editingGapIndex) {
+      return `
+        <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
+            <span class="gap-code" style="color:var(--accent2)">${g.icd}</span>
+            <div style="flex:1">
+              <div style="font-size:10px;color:var(--text)">${g.desc}</div>
+              <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
+            <div class="form-row cols-3" style="margin-bottom:6px">
+              <div><div class="form-label">ICD-10 Gap</div><input class="form-control" id="editGap_icd" value="${g.icd}"></div>
+              <div><div class="form-label">HCC Cat</div><input class="form-control" id="editGap_hcc" value="${g.hcc}"></div>
+              <div>
+                <div class="form-label">Gap Type</div>
+                <select class="form-select" id="editGap_type">
+                  <option ${g.type === 'Recapture' ? 'selected' : ''}>Recapture</option>
+                  <option ${g.type === 'New Suspect' ? 'selected' : ''}>New Suspect</option>
+                  <option ${g.type === 'Potential' ? 'selected' : ''}>Potential</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row cols-2" style="margin-bottom:6px">
+              <div><div class="form-label">Description</div><input class="form-control" id="editGap_desc" value="${g.desc}"></div>
+              <div><div class="form-label">RAF Impact</div><input class="form-control" id="editGap_raf" value="${g.raf}"></div>
+            </div>
+            <div class="form-row cols-3" style="margin-bottom:2px">
+              <div>
+                <div class="form-label">Priority</div>
+                <select class="form-select" id="editGap_priority">
+                  <option ${g.priority === 'High' ? 'selected' : ''}>High</option>
+                  <option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                  <option ${g.priority === 'Low' ? 'selected' : ''}>Low</option>
+                </select>
+              </div>
+              <div><div class="form-label">Evidence</div><input class="form-control" id="editGap_evidence" value="${g.evidence || ''}"></div>
+              <div>
+                <div class="form-label">&nbsp;</div>
+                <div style="display:flex; gap:6px;">
+                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditGap()">Cancel</button>
+                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateGap(${i})">Update Gap</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="gap-entry ${i===2?'resolved':''}">
+        <span class="gap-code" style="color:var(--accent2)">${g.icd}</span>
+        <div style="flex:1">
+          <div style="font-size:10px;color:var(--text)">${g.desc}</div>
+          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
+        </div>
+        <div class="gap-action">
+          <button class="resolve-btn" onclick="editGap(${i})">🖊</button>
+          <button class="dismiss-btn" onclick="dismissGap(${i})">✕</button>
+        </div>
       </div>
-      <div class="gap-action">
-        <button class="resolve-btn" onclick="editGap(${i})">🖊</button>
-        <button class="dismiss-btn" onclick="dismissGap(${i})">✕</button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function addGapEntry() {
@@ -1317,17 +1369,63 @@ function resolveGap(i) { showToast(`Gap ${gapData[i].icd} resolved`); }
 function dismissGap(i) { gapData.splice(i,1); renderGaps(); showToast('Gap dismissed'); }
 
 // ── RENDER CPT ──
+let editingCPTIndex = -1;
 function renderCPT() {
-  document.getElementById('cptEntries').innerHTML = cptData.map((c,i) => `
-    <div class="code-entry">
-      <span class="code-tag" style="color:var(--accent2)">${c.cpt}</span>
-      <span class="code-desc">${c.desc}</span>
-      ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod}</span>`:''}
-      <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
-      <button class="resolve-btn" onclick="editCPT(${i})">🖊</button>
-      <span class="del-btn" onclick="removeCPT(${i})">✕</span>
-    </div>
-  `).join('');
+  document.getElementById('cptEntries').innerHTML = cptData.map((c,i) => {
+    if (i === editingCPTIndex) {
+      return `
+        <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
+          <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
+            <span class="code-tag" style="color:var(--accent2)">${c.cpt}</span>
+            <span class="code-desc">${c.desc}</span>
+            <span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod || 'None'}</span>
+            <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
+          </div>
+          <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
+            <div class="form-row cols-4" style="margin-bottom:6px">
+              <div><div class="form-label">CPT Code</div><input class="form-control" id="editCPT_cpt" value="${c.cpt}"></div>
+              <div><div class="form-label">Modifier</div><input class="form-control" id="editCPT_mod" value="${c.mod}"></div>
+              <div><div class="form-label">Units</div><input class="form-control" id="editCPT_units" value="${c.units}"></div>
+              <div><div class="form-label">DOS</div><input class="form-control" id="editCPT_dos" value="${c.dos}"></div>
+            </div>
+            <div class="form-row cols-3" style="margin-bottom:6px">
+              <div><div class="form-label">Description</div><input class="form-control" id="editCPT_desc" value="${c.desc}"></div>
+              <div><div class="form-label">Linked ICD</div><input class="form-control" id="editCPT_icd" value="${c.icd}"></div>
+              <div>
+                <div class="form-label">Place of Service</div>
+                <select class="form-select" id="editCPT_pos">
+                  <option ${c.pos === '11' ? 'selected' : ''} value="11">11 - Office</option>
+                  <option ${c.pos === '21' ? 'selected' : ''} value="21">21 - Inpatient</option>
+                  <option ${c.pos === '22' ? 'selected' : ''} value="22">22 - Outpatient</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row cols-3" style="margin-bottom:2px">
+              <div><div class="form-label">Expected $</div><input class="form-control" id="editCPT_expected" value="${c.expected || ''}"></div>
+              <div><div class="form-label">Coder Notes</div><input class="form-control" id="editCPT_notes" value="${c.notes || ''}"></div>
+              <div>
+                <div class="form-label">&nbsp;</div>
+                <div style="display:flex; gap:6px;">
+                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditCPT()">Cancel</button>
+                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateCPT(${i})">Update CPT</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="code-entry">
+        <span class="code-tag" style="color:var(--accent2)">${c.cpt}</span>
+        <span class="code-desc">${c.desc}</span>
+        ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod}</span>`:''}
+        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
+        <button class="resolve-btn" onclick="editCPT(${i})">🖊</button>
+        <span class="del-btn" onclick="removeCPT(${i})">✕</span>
+      </div>
+    `;
+  }).join('');
 }
 
 function addCPTEntry() {
@@ -1340,20 +1438,70 @@ function addCPTEntry() {
 function removeCPT(i) { cptData.splice(i,1); renderCPT(); }
 
 // ── RENDER CPT GAPS ──
+let editingCPTGapIndex = -1;
 function renderCPTGaps() {
-  document.getElementById('cptGapEntries').innerHTML = cptGapData.map((g,i) => `
-    <div class="gap-entry">
-      <span class="gap-code" style="color:var(--accent2)">${g.cpt}</span>
-      <div style="flex:1">
-        <div style="font-size:10px;color:var(--text)">${g.desc}</div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
+  document.getElementById('cptGapEntries').innerHTML = cptGapData.map((g,i) => {
+    if (i === editingCPTGapIndex) {
+      return `
+        <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
+            <span class="gap-code" style="color:var(--accent2)">${g.cpt}</span>
+            <div style="flex:1">
+              <div style="font-size:10px;color:var(--text)">${g.desc}</div>
+              <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
+            <div class="form-row cols-3" style="margin-bottom:6px">
+              <div><div class="form-label">CPT Gap</div><input class="form-control" id="editCPTGap_cpt" value="${g.cpt}"></div>
+              <div>
+                <div class="form-label">Gap Reason</div>
+                <select class="form-select" id="editCPTGap_reason">
+                  <option ${g.reason === 'Missing Procedure' ? 'selected' : ''}>Missing Procedure</option>
+                  <option ${g.reason === 'Under-coded' ? 'selected' : ''}>Under-coded</option>
+                  <option ${g.reason === 'Missed Service' ? 'selected' : ''}>Missed Service</option>
+                </select>
+              </div>
+              <div><div class="form-label">Revenue Impact</div><input class="form-control" id="editCPTGap_impact" value="${g.impact}"></div>
+            </div>
+            <div class="form-row cols-2" style="margin-bottom:6px">
+              <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}"></div>
+              <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
+            </div>
+            <div class="form-row" style="margin-bottom:2px">
+              <div style="display:flex; gap:6px; justify-content:space-between; align-items:flex-end;">
+                <div style="flex:1;">
+                  <div class="form-label">Priority</div>
+                  <select class="form-select" id="editCPTGap_priority">
+                    <option ${g.priority === 'High' ? 'selected' : ''}>High</option>
+                    <option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                    <option ${g.priority === 'Low' ? 'selected' : ''}>Low</option>
+                  </select>
+                </div>
+                <div style="display:flex; gap:6px; margin-bottom: 0;">
+                  <button class="btn" style="height:22px; padding:4px 12px" onclick="cancelEditCPTGap()">Cancel</button>
+                  <button class="btn primary" style="height:22px; padding:4px 12px" onclick="updateCPTGap(${i})">Update CPT Gap</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="gap-entry">
+        <span class="gap-code" style="color:var(--accent2)">${g.cpt}</span>
+        <div style="flex:1">
+          <div style="font-size:10px;color:var(--text)">${g.desc}</div>
+          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
+        </div>
+        <div class="gap-action">
+          <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
+          <button class="dismiss-btn" onclick="removeCPTGap(${i})">✕</button>
+        </div>
       </div>
-      <div class="gap-action">
-        <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
-        <button class="dismiss-btn" onclick="removeCPTGap(${i})">✕</button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function addCPTGapEntry() {
@@ -1386,9 +1534,51 @@ function updateICD(i) {
   renderHCC();
   showToast('ICD updated successfully');
 }
-function editGap(i) { expandCodingPanel(); showToast('Editing ICD Gap ' + gapData[i].icd); }
-function editCPT(i) { expandCodingPanel(); showToast('Editing CPT ' + cptData[i].cpt); }
-function editCPTGap(i) { expandCodingPanel(); showToast('Editing CPT Gap ' + cptGapData[i].cpt); }
+function editGap(i) { expandCodingPanel(); editingGapIndex = i; renderGaps(); }
+function cancelEditGap() { editingGapIndex = -1; renderGaps(); }
+function updateGap(i) {
+  gapData[i].icd = document.getElementById('editGap_icd').value;
+  gapData[i].hcc = document.getElementById('editGap_hcc').value;
+  gapData[i].type = document.getElementById('editGap_type').value;
+  gapData[i].desc = document.getElementById('editGap_desc').value;
+  gapData[i].raf = document.getElementById('editGap_raf').value;
+  gapData[i].priority = document.getElementById('editGap_priority').value;
+  gapData[i].evidence = document.getElementById('editGap_evidence').value;
+  editingGapIndex = -1;
+  renderGaps();
+  showToast('Gap updated successfully');
+}
+
+function editCPT(i) { expandCodingPanel(); editingCPTIndex = i; renderCPT(); }
+function cancelEditCPT() { editingCPTIndex = -1; renderCPT(); }
+function updateCPT(i) {
+  cptData[i].cpt = document.getElementById('editCPT_cpt').value;
+  cptData[i].mod = document.getElementById('editCPT_mod').value;
+  cptData[i].units = document.getElementById('editCPT_units').value;
+  cptData[i].dos = document.getElementById('editCPT_dos').value;
+  cptData[i].desc = document.getElementById('editCPT_desc').value;
+  cptData[i].icd = document.getElementById('editCPT_icd').value;
+  cptData[i].pos = document.getElementById('editCPT_pos').value;
+  cptData[i].expected = document.getElementById('editCPT_expected').value;
+  cptData[i].notes = document.getElementById('editCPT_notes').value;
+  editingCPTIndex = -1;
+  renderCPT();
+  showToast('CPT updated successfully');
+}
+
+function editCPTGap(i) { expandCodingPanel(); editingCPTGapIndex = i; renderCPTGaps(); }
+function cancelEditCPTGap() { editingCPTGapIndex = -1; renderCPTGaps(); }
+function updateCPTGap(i) {
+  cptGapData[i].cpt = document.getElementById('editCPTGap_cpt').value;
+  cptGapData[i].reason = document.getElementById('editCPTGap_reason').value;
+  cptGapData[i].impact = document.getElementById('editCPTGap_impact').value;
+  cptGapData[i].desc = document.getElementById('editCPTGap_desc').value;
+  cptGapData[i].evidence = document.getElementById('editCPTGap_evidence').value;
+  cptGapData[i].priority = document.getElementById('editCPTGap_priority').value;
+  editingCPTGapIndex = -1;
+  renderCPTGaps();
+  showToast('CPT Gap updated successfully');
+}
 
 // ── TABS ──
 const tabs = ['hcc','gaps','cpt','cptgaps'];
