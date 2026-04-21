@@ -291,6 +291,18 @@
  .cell-icd { color: #214d84; font-weight: 600; }
  .cell-amt { color: #214d84; text-align: right; }
  .cell-status { }
+ #claimsTable.hide-col-1 th:nth-child(1), #claimsTable.hide-col-1 td:nth-child(1) { display: none; }
+ #claimsTable.hide-col-2 th:nth-child(2), #claimsTable.hide-col-2 td:nth-child(2) { display: none; }
+ #claimsTable.hide-col-3 th:nth-child(3), #claimsTable.hide-col-3 td:nth-child(3) { display: none; }
+ #claimsTable.hide-col-4 th:nth-child(4), #claimsTable.hide-col-4 td:nth-child(4) { display: none; }
+ #claimsTable.hide-col-5 th:nth-child(5), #claimsTable.hide-col-5 td:nth-child(5) { display: none; }
+ #claimsTable.hide-col-6 th:nth-child(6), #claimsTable.hide-col-6 td:nth-child(6) { display: none; }
+ #claimsTable.hide-col-7 th:nth-child(7), #claimsTable.hide-col-7 td:nth-child(7) { display: none; }
+ #claimsTable.hide-col-8 th:nth-child(8), #claimsTable.hide-col-8 td:nth-child(8) { display: none; }
+ #claimsTable.hide-col-9 th:nth-child(9), #claimsTable.hide-col-9 td:nth-child(9) { display: none; }
+ #claimsTable.hide-col-10 th:nth-child(10), #claimsTable.hide-col-10 td:nth-child(10) { display: none; }
+ #claimsTable.hide-col-11 th:nth-child(11), #claimsTable.hide-col-11 td:nth-child(11) { display: none; }
+ #claimsTable.hide-col-12 th:nth-child(12), #claimsTable.hide-col-12 td:nth-child(12) { display: none; }
  .status-pill {
  display: inline-block; padding: 1px 7px; border-radius: 10px;
  font-size: 9px; font-weight: 700; letter-spacing: 0;
@@ -630,8 +642,22 @@
           <span class="filter-chip" onclick="toggleFilter(this,'Denied')">Denied</span>
           <span class="filter-chip" onclick="toggleFilter(this,'Pending')">Pending</span>
           <button class="btn" onclick="toggleGroupBy()">⊞ Group: <span id="groupLabel">DOS</span></button>
-          <button class="btn" onclick="showToast('Columns configured')">⚙ Cols</button>
+          <button class="btn" onclick="toggleColSelector()">⚙ Cols</button>
           <button class="btn" onclick="toggleClaimsFullscreen(this)" style="margin-left:4px;">⛶ Full</button>
+        </div>
+        <div id="colSelectorPanel" style="display: none; padding: 6px 8px; border-bottom: 1px solid var(--border); background: #ffffff; gap: 12px; flex-wrap: wrap; font-size: 10px; font-family: var(--sans);">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(1, this.checked)"> DOS</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(2, this.checked)"> Claim ID</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(3, this.checked)"> Provider</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(4, this.checked)"> CPT</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(5, this.checked)"> ICD-10</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(6, this.checked)"> Mod</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(7, this.checked)"> Units</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(8, this.checked)"> Billed $</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(9, this.checked)"> Allowed $</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(10, this.checked)"> Paid $</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(11, this.checked)"> Status</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(12, this.checked)"> Payer</label>
         </div>
         <div class="data-table-wrap">
           <table class="data-table" id="claimsTable">
@@ -1071,6 +1097,24 @@ function filterClaims(val) {
 
 function linkClaim(id) { showToast(`Claim ${id} linked to current encounter`); }
 function sortTable(col) { showToast(`Sorted by ${col}`); }
+
+function toggleColSelector() {
+  const panel = document.getElementById('colSelectorPanel');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'flex';
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function toggleTableCol(colIdx, isVisible) {
+  const table = document.getElementById('claimsTable');
+  if (isVisible) {
+    table.classList.remove('hide-col-' + colIdx);
+  } else {
+    table.classList.add('hide-col-' + colIdx);
+  }
+}
 
 // ── RENDER HCC ──
 function renderHCC() {
