@@ -793,7 +793,7 @@
             <div class="form-row cols-4" style="margin-bottom:6px">
               <div>
                 <div class="form-label">ICD-10</div>
-                <input class="form-control" id="newICD" placeholder="E11.65" oninput="lookupICD(this.value)">
+                <input class="form-control" id="newICD" placeholder="E11.65" oninput="lookupICD(this.value)" list="icdList">
               </div>
               <div>
                 <div class="form-label">HCC Cat</div>
@@ -861,7 +861,7 @@
             <div class="form-row cols-3" style="margin-bottom:6px">
               <div>
                 <div class="form-label">ICD-10 Gap</div>
-                <input class="form-control" placeholder="I50.22">
+                <input class="form-control" id="newGapICD" placeholder="I50.22" list="icdList">
               </div>
               <div>
                 <div class="form-label">HCC Cat</div>
@@ -922,7 +922,7 @@
             <div class="form-row cols-4" style="margin-bottom:6px">
               <div>
                 <div class="form-label">CPT Code</div>
-                <input class="form-control" id="newCPT" placeholder="99215">
+                <input class="form-control" id="newCPT" placeholder="99215" list="cptList">
               </div>
               <div>
                 <div class="form-label">Modifier</div>
@@ -987,7 +987,7 @@
             <div class="form-row cols-3" style="margin-bottom:6px">
               <div>
                 <div class="form-label">CPT Gap</div>
-                <input class="form-control" placeholder="93000">
+                <input class="form-control" id="newCPTGap" placeholder="93000" list="cptList">
               </div>
               <div>
                 <div class="form-label">Gap Reason</div>
@@ -1023,6 +1023,24 @@
       </div>
 
     </div><!-- /coding-content -->
+    
+    <datalist id="icdList">
+      <option value="E11.65">T2DM with Hyperglycemia</option>
+      <option value="I50.22">Chronic Systolic HF</option>
+      <option value="N18.3">CKD Stage 3a</option>
+      <option value="I10">Essential Hypertension</option>
+      <option value="J44.1">COPD with Acute Exacerbation</option>
+      <option value="E11.9">Type 2 DM without complications</option>
+      <option value="I25.10">Native coronary artery disease</option>
+    </datalist>
+    <datalist id="cptList">
+      <option value="99215">Office visit, high complexity</option>
+      <option value="93000">ECG, routine</option>
+      <option value="99417">Prolonged service 15min</option>
+      <option value="99490">Chronic Care Management</option>
+      <option value="99484">Behavioral integration</option>
+      <option value="99214">Office/outpatient visit mod mdm</option>
+    </datalist>
 
     <!-- SUMMARY BAR -->
     <div class="summary-bar">
@@ -1259,7 +1277,7 @@ function renderHCC() {
           </div>
           <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
             <div class="form-row cols-4" style="margin-bottom:6px">
-              <div><div class="form-label">ICD-10</div><input class="form-control" id="editICD_icd" value="${h.icd}"></div>
+              <div><div class="form-label">ICD-10</div><input class="form-control" id="editICD_icd" value="${h.icd}" list="icdList"></div>
               <div><div class="form-label">HCC Cat</div><input class="form-control" id="editICD_hcc" value="${h.hcc || ''}"></div>
               <div><div class="form-label">RAF Wt</div><input class="form-control" id="editICD_raf" value="${h.raf || ''}"></div>
               <div><div class="form-label">DOS</div><input class="form-control" id="editICD_dos" value="${h.dos || ''}"></div>
@@ -1326,7 +1344,16 @@ function addHCCEntry() {
 }
 function removeHCC(i) { hccData.splice(i,1); renderHCC(); showToast('HCC removed'); }
 function lookupICD(val) {
-  if(val.length>4) { document.getElementById('newDesc').value = 'Auto-matched: '+val; }
+  const icdMap = {
+    'E11.65': 'T2DM with Hyperglycemia',
+    'I50.22': 'Chronic Systolic HF',
+    'N18.3': 'CKD Stage 3a',
+    'I10': 'Essential Hypertension',
+    'J44.1': 'COPD with Acute Exacerbation'
+  };
+  if(icdMap[val]) {
+    document.getElementById('newDesc').value = icdMap[val];
+  }
 }
 
 // ── RENDER GAPS ──
@@ -1346,7 +1373,7 @@ function renderGaps() {
           </div>
           <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
             <div class="form-row cols-3" style="margin-bottom:6px">
-              <div><div class="form-label">ICD-10 Gap</div><input class="form-control" id="editGap_icd" value="${g.icd}"></div>
+              <div><div class="form-label">ICD-10 Gap</div><input class="form-control" id="editGap_icd" value="${g.icd}" list="icdList"></div>
               <div><div class="form-label">HCC Cat</div><input class="form-control" id="editGap_hcc" value="${g.hcc}"></div>
               <div>
                 <div class="form-label">Gap Type</div>
@@ -1423,7 +1450,7 @@ function renderCPT() {
           </div>
           <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
             <div class="form-row cols-4" style="margin-bottom:6px">
-              <div><div class="form-label">CPT Code</div><input class="form-control" id="editCPT_cpt" value="${c.cpt}"></div>
+              <div><div class="form-label">CPT Code</div><input class="form-control" id="editCPT_cpt" value="${c.cpt}" list="cptList"></div>
               <div><div class="form-label">Modifier</div><input class="form-control" id="editCPT_mod" value="${c.mod}"></div>
               <div><div class="form-label">Units</div><input class="form-control" id="editCPT_units" value="${c.units}"></div>
               <div><div class="form-label">DOS</div><input class="form-control" id="editCPT_dos" value="${c.dos}"></div>
@@ -1497,7 +1524,7 @@ function renderCPTGaps() {
           </div>
           <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
             <div class="form-row cols-3" style="margin-bottom:6px">
-              <div><div class="form-label">CPT Gap</div><input class="form-control" id="editCPTGap_cpt" value="${g.cpt}"></div>
+              <div><div class="form-label">CPT Gap</div><input class="form-control" id="editCPTGap_cpt" value="${g.cpt}" list="cptList"></div>
               <div>
                 <div class="form-label">Gap Reason</div>
                 <select class="form-select" id="editCPTGap_reason">
