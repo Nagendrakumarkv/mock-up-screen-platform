@@ -1207,18 +1207,50 @@ function toggleTableCol(colIdx, isVisible) {
 }
 
 // ── RENDER HCC ──
+let editingICDIndex = -1;
+
 function renderHCC() {
-  document.getElementById('hccEntries').innerHTML = hccData.map((h,i) => `
-    <div class="code-entry">
-      <span class="code-tag" style="color:var(--accent2)">${h.icd}</span>
-      <span class="code-desc">${h.desc}</span>
-      <span class="code-hcc">HCC${h.hcc}</span>
-      <span class="code-raf">+${h.raf}</span>
-      <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${h.dos}</span>
-      <button class="resolve-btn" onclick="editICD(${i})">🖊</button>
-      <span class="del-btn" onclick="removeHCC(${i})">✕</span>
-    </div>
-  `).join('');
+  document.getElementById('hccEntries').innerHTML = hccData.map((h,i) => {
+    if (i === editingICDIndex) {
+      return `
+        <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
+          <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
+            <span class="code-tag" style="color:var(--accent2)">${h.icd}</span>
+            <span class="code-desc">${h.desc}</span>
+            <span class="code-hcc">HCC${h.hcc}</span>
+            <span class="code-raf">+${h.raf}</span>
+            <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${h.dos}</span>
+          </div>
+          <div style="border-top: 1px dashed #c0ccda; padding-top: 8px;">
+            <div class="form-row cols-4" style="margin-bottom:6px">
+              <div><div class="form-label">ICD-10</div><input class="form-control" id="editICD_icd" value="${h.icd}"></div>
+              <div><div class="form-label">HCC Cat</div><input class="form-control" id="editICD_hcc" value="${h.hcc}"></div>
+              <div><div class="form-label">RAF Wt</div><input class="form-control" id="editICD_raf" value="${h.raf}"></div>
+              <div><div class="form-label">DOS</div><input class="form-control" id="editICD_dos" value="${h.dos}"></div>
+            </div>
+            <div class="form-row cols-2" style="margin-bottom:2px">
+              <div><div class="form-label">Description</div><input class="form-control" id="editICD_desc" value="${h.desc}"></div>
+              <div style="display:flex; align-items:flex-end; gap:6px; justify-content:flex-end;">
+                <button class="btn" style="padding:4px 12px" onclick="cancelEditICD()">Cancel</button>
+                <button class="btn primary" style="padding:4px 12px" onclick="updateICD(${i})">Update ICD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <div class="code-entry">
+        <span class="code-tag" style="color:var(--accent2)">${h.icd}</span>
+        <span class="code-desc">${h.desc}</span>
+        <span class="code-hcc">HCC${h.hcc}</span>
+        <span class="code-raf">+${h.raf}</span>
+        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${h.dos}</span>
+        <button class="resolve-btn" onclick="editICD(${i})">🖊</button>
+        <span class="del-btn" onclick="removeHCC(${i})">✕</span>
+      </div>
+    `;
+  }).join('');
 }
 
 function addHCC() { showToast('Scroll to add ICD form'); }
@@ -1316,7 +1348,18 @@ function expandCodingPanel() {
     if (btn) toggleRightPanelFullscreen(btn);
   }
 }
-function editICD(i) { expandCodingPanel(); showToast('Editing ICD ' + hccData[i].icd); }
+function editICD(i) { expandCodingPanel(); editingICDIndex = i; renderHCC(); }
+function cancelEditICD() { editingICDIndex = -1; renderHCC(); }
+function updateICD(i) {
+  hccData[i].icd = document.getElementById('editICD_icd').value;
+  hccData[i].hcc = document.getElementById('editICD_hcc').value;
+  hccData[i].raf = document.getElementById('editICD_raf').value;
+  hccData[i].dos = document.getElementById('editICD_dos').value;
+  hccData[i].desc = document.getElementById('editICD_desc').value;
+  editingICDIndex = -1;
+  renderHCC();
+  showToast('ICD updated successfully');
+}
 function editGap(i) { expandCodingPanel(); showToast('Editing ICD Gap ' + gapData[i].icd); }
 function editCPT(i) { expandCodingPanel(); showToast('Editing CPT ' + cptData[i].cpt); }
 function editCPTGap(i) { expandCodingPanel(); showToast('Editing CPT Gap ' + cptGapData[i].cpt); }
