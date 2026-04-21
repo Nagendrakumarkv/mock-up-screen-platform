@@ -1210,8 +1210,9 @@ function toggleTableCol(colIdx, isVisible) {
 let editingICDIndex = -1;
 
 function renderHCC() {
+  const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('hccEntries').innerHTML = hccData.map((h,i) => {
-    if (i === editingICDIndex) {
+    if (i === editingICDIndex && isFullscreen) {
       return `
         <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
@@ -1294,8 +1295,9 @@ function lookupICD(val) {
 // ── RENDER GAPS ──
 let editingGapIndex = -1;
 function renderGaps() {
+  const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('gapEntries').innerHTML = gapData.map((g,i) => {
-    if (i === editingGapIndex) {
+    if (i === editingGapIndex && isFullscreen) {
       return `
         <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
@@ -1371,8 +1373,9 @@ function dismissGap(i) { gapData.splice(i,1); renderGaps(); showToast('Gap dismi
 // ── RENDER CPT ──
 let editingCPTIndex = -1;
 function renderCPT() {
+  const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('cptEntries').innerHTML = cptData.map((c,i) => {
-    if (i === editingCPTIndex) {
+    if (i === editingCPTIndex && isFullscreen) {
       return `
         <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
@@ -1440,8 +1443,9 @@ function removeCPT(i) { cptData.splice(i,1); renderCPT(); }
 // ── RENDER CPT GAPS ──
 let editingCPTGapIndex = -1;
 function renderCPTGaps() {
+  const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('cptGapEntries').innerHTML = cptGapData.map((g,i) => {
-    if (i === editingCPTGapIndex) {
+    if (i === editingCPTGapIndex && isFullscreen) {
       return `
         <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
@@ -1711,6 +1715,11 @@ function toggleRightPanelFullscreen(btn) {
     btn.setAttribute('data-tip', 'Expand to Full Screen');
     showToast('Coding panel restored');
   }
+  // Re-render to show/hide edit fields based on new view state
+  renderHCC();
+  renderGaps();
+  renderCPT();
+  renderCPTGaps();
 }
 
 function toggleCenterPanelFullscreen(btn) {
