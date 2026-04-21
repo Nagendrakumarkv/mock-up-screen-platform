@@ -303,6 +303,22 @@
  #claimsTable.hide-col-10 th:nth-child(10), #claimsTable.hide-col-10 td:nth-child(10) { display: none; }
  #claimsTable.hide-col-11 th:nth-child(11), #claimsTable.hide-col-11 td:nth-child(11) { display: none; }
  #claimsTable.hide-col-12 th:nth-child(12), #claimsTable.hide-col-12 td:nth-child(12) { display: none; }
+ #claimsTable.hide-col-13 th:nth-child(13), #claimsTable.hide-col-13 td:nth-child(13) { display: none; }
+ #claimsTable.hide-col-14 th:nth-child(14), #claimsTable.hide-col-14 td:nth-child(14) { display: none; }
+ #claimsTable.hide-col-15 th:nth-child(15), #claimsTable.hide-col-15 td:nth-child(15) { display: none; }
+ #claimsTable.hide-col-16 th:nth-child(16), #claimsTable.hide-col-16 td:nth-child(16) { display: none; }
+ #claimsTable.hide-col-17 th:nth-child(17), #claimsTable.hide-col-17 td:nth-child(17) { display: none; }
+ #claimsTable.hide-col-18 th:nth-child(18), #claimsTable.hide-col-18 td:nth-child(18) { display: none; }
+ #claimsTable.hide-col-19 th:nth-child(19), #claimsTable.hide-col-19 td:nth-child(19) { display: none; }
+ #claimsTable.hide-col-20 th:nth-child(20), #claimsTable.hide-col-20 td:nth-child(20) { display: none; }
+ #claimsTable.hide-col-21 th:nth-child(21), #claimsTable.hide-col-21 td:nth-child(21) { display: none; }
+ #claimsTable.hide-col-22 th:nth-child(22), #claimsTable.hide-col-22 td:nth-child(22) { display: none; }
+ #claimsTable.hide-col-23 th:nth-child(23), #claimsTable.hide-col-23 td:nth-child(23) { display: none; }
+ #claimsTable.hide-col-24 th:nth-child(24), #claimsTable.hide-col-24 td:nth-child(24) { display: none; }
+ #claimsTable.hide-col-25 th:nth-child(25), #claimsTable.hide-col-25 td:nth-child(25) { display: none; }
+ #claimsTable.hide-col-26 th:nth-child(26), #claimsTable.hide-col-26 td:nth-child(26) { display: none; }
+ #claimsTable.hide-col-27 th:nth-child(27), #claimsTable.hide-col-27 td:nth-child(27) { display: none; }
+ #claimsTable.hide-col-28 th:nth-child(28), #claimsTable.hide-col-28 td:nth-child(28) { display: none; }
  .status-pill {
  display: inline-block; padding: 1px 7px; border-radius: 10px;
  font-size: 9px; font-weight: 700; letter-spacing: 0;
@@ -646,35 +662,67 @@
           <button class="btn" onclick="toggleClaimsFullscreen(this)" style="margin-left:4px;">⛶ Full</button>
         </div>
         <div id="colSelectorPanel" style="display: none; padding: 6px 8px; border-bottom: 1px solid var(--border); background: #ffffff; gap: 12px; flex-wrap: wrap; font-size: 10px; font-family: var(--sans);">
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(1, this.checked)"> DOS</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(2, this.checked)"> Claim ID</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(3, this.checked)"> Provider</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(4, this.checked)"> CPT</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(5, this.checked)"> ICD-10</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(6, this.checked)"> Mod</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(7, this.checked)"> Units</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(8, this.checked)"> Billed $</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(9, this.checked)"> Allowed $</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(10, this.checked)"> Paid $</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(11, this.checked)"> Status</label>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(12, this.checked)"> Payer</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(1, this.checked)"> Claim ID</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(2, this.checked)"> Patient ID</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(3, this.checked)"> Patient Name</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(4, this.checked)"> Date of Birth</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(5, this.checked)"> Gender</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(6, this.checked)"> Date of Service (DOS)</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(7, this.checked)"> Claim Year</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(8, this.checked)"> Provider Name</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(9, this.checked)"> Provider NPI</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(10, this.checked)"> Facility Name</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(11, this.checked)"> Facility Type</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(12, this.checked)"> Claim Type</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(13, this.checked)"> ICD-10 Codes</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(14, this.checked)"> ICD Descriptions</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(15, this.checked)"> CPT/HCPCS Codes</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(16, this.checked)"> Procedure Descriptions</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(17, this.checked)"> Place of Service (POS)</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(18, this.checked)"> Claim Status</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(19, this.checked)"> Payer Name</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(20, this.checked)"> Payer Type</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(21, this.checked)"> HCC Category Codes</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(22, this.checked)"> RX-HCC Codes</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked onchange="toggleTableCol(23, this.checked)"> RAF Score Contribution</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(24, this.checked)"> Encounter Type</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(25, this.checked)"> Chronic Condition Flag</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(26, this.checked)"> Audit Flag</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(27, this.checked)"> Source System</label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" onchange="toggleTableCol(28, this.checked)"> Last Updated</label>
         </div>
         <div class="data-table-wrap">
-          <table class="data-table" id="claimsTable">
+          <table class="data-table hide-col-2 hide-col-3 hide-col-4 hide-col-5 hide-col-7 hide-col-9 hide-col-10 hide-col-11 hide-col-12 hide-col-14 hide-col-16 hide-col-17 hide-col-20 hide-col-21 hide-col-22 hide-col-24 hide-col-25 hide-col-26 hide-col-27 hide-col-28" id="claimsTable">
             <thead>
               <tr>
-                <th onclick="sortTable('dos')">DOS ↕</th>
-                <th onclick="sortTable('claim')">Claim ID ↕</th>
-                <th onclick="sortTable('prov')">Provider ↕</th>
-                <th onclick="sortTable('cpt')">CPT ↕</th>
-                <th onclick="sortTable('icd')">ICD-10 ↕</th>
-                <th onclick="sortTable('mod')">Mod</th>
-                <th onclick="sortTable('unit')">Units</th>
-                <th onclick="sortTable('billed')">Billed $</th>
-                <th onclick="sortTable('allowed')">Allowed $</th>
-                <th onclick="sortTable('paid')">Paid $</th>
-                <th onclick="sortTable('status')">Status</th>
-                <th onclick="sortTable('payer')">Payer</th>
+                <th onclick="sortTable('claimId')">Claim ID ↕</th>
+                <th onclick="sortTable('patientId')">Patient ID</th>
+                <th onclick="sortTable('patientName')">Patient Name</th>
+                <th onclick="sortTable('dob')">Date of Birth</th>
+                <th onclick="sortTable('gender')">Gender</th>
+                <th onclick="sortTable('dos')">Date of Service (DOS) ↕</th>
+                <th onclick="sortTable('claimYear')">Claim Year</th>
+                <th onclick="sortTable('providerName')">Provider Name ↕</th>
+                <th onclick="sortTable('providerNpi')">Provider NPI</th>
+                <th onclick="sortTable('facilityName')">Facility Name</th>
+                <th onclick="sortTable('facilityType')">Facility Type</th>
+                <th onclick="sortTable('claimType')">Claim Type</th>
+                <th onclick="sortTable('icd10')">ICD-10 Codes ↕</th>
+                <th onclick="sortTable('icdDesc')">ICD Descriptions</th>
+                <th onclick="sortTable('cpt')">CPT/HCPCS Codes ↕</th>
+                <th onclick="sortTable('cptDesc')">Procedure Descriptions</th>
+                <th onclick="sortTable('pos')">Place of Service (POS)</th>
+                <th onclick="sortTable('status')">Claim Status ↕</th>
+                <th onclick="sortTable('payerName')">Payer Name</th>
+                <th onclick="sortTable('payerType')">Payer Type</th>
+                <th onclick="sortTable('hcc')">HCC Category Codes</th>
+                <th onclick="sortTable('rxHcc')">RX-HCC Codes</th>
+                <th onclick="sortTable('raf')">RAF Score Contribution ↕</th>
+                <th onclick="sortTable('encType')">Encounter Type</th>
+                <th onclick="sortTable('chronicFlag')">Chronic Condition Flag</th>
+                <th onclick="sortTable('auditFlag')">Audit Flag</th>
+                <th onclick="sortTable('sourceSys')">Source System</th>
+                <th onclick="sortTable('lastUpdated')">Last Updated</th>
               </tr>
             </thead>
             <tbody id="claimsBody"></tbody>
@@ -977,16 +1025,11 @@ const encounters = [
 ];
 
 const claims = [
-  {dos:'09/14/24',claim:'CLM-88401',prov:'Dr. Chen',cpt:'99215',icd:'E11.65',mod:'25',units:1,billed:285,allowed:198,paid:198,status:'paid',payer:'UHC MA'},
-  {dos:'09/14/24',claim:'CLM-88402',prov:'Dr. Chen',cpt:'93000',icd:'I50.22',mod:'',units:1,billed:95,allowed:62,paid:62,status:'paid',payer:'UHC MA'},
-  {dos:'09/14/24',claim:'CLM-88403',prov:'Dr. Chen',cpt:'99417',icd:'E11.65',mod:'',units:2,billed:140,allowed:0,paid:0,status:'denied',payer:'UHC MA'},
-  {dos:'07/22/24',claim:'CLM-86210',prov:'Dr. Williams',cpt:'99214',icd:'J44.1',mod:'',units:1,billed:215,allowed:156,paid:156,status:'paid',payer:'Aetna'},
-  {dos:'07/22/24',claim:'CLM-86211',prov:'Dr. Williams',cpt:'94640',icd:'J44.1',mod:'',units:1,billed:85,allowed:0,paid:0,status:'pending',payer:'Aetna'},
-  {dos:'05/10/24',claim:'CLM-83902',prov:'Dr. Kim',cpt:'99213',icd:'N18.3',mod:'',units:1,billed:175,allowed:122,paid:122,status:'paid',payer:'Humana'},
-  {dos:'05/10/24',claim:'CLM-83903',prov:'Dr. Kim',cpt:'36415',icd:'N18.3',mod:'',units:3,billed:45,allowed:30,paid:30,status:'paid',payer:'Humana'},
-  {dos:'03/01/24',claim:'CLM-81244',prov:'Dr. Patel',cpt:'99215',icd:'I10',mod:'25',units:1,billed:285,allowed:198,paid:198,status:'paid',payer:'BCBS'},
-  {dos:'03/01/24',claim:'CLM-81245',prov:'Dr. Patel',cpt:'93000',icd:'I10',mod:'',units:1,billed:95,allowed:0,paid:0,status:'denied',payer:'BCBS'},
-  {dos:'10/29/24',claim:'CLM-90012',prov:'Dr. Patel',cpt:'99215',icd:'I10',mod:'',units:1,billed:285,allowed:198,paid:0,status:'pending',payer:'UHC MA'},
+  { claimId: 'CLM-88401', patientId: 'PID-10023', patientName: 'Johnson, Michael A.', dob: '03/15/1958', gender: 'M', dos: '09/14/24', claimYear: '2024', providerName: 'Dr. Chen', providerNpi: '1098765432', facilityName: 'Northview Medical Associates', facilityType: 'Office', claimType: 'Professional', icd10: 'E11.65, I50.22', icdDesc: 'T2DM with Hyperglycemia, Chronic Systolic HF', cpt: '99215', cptDesc: 'Office visit, high complexity', pos: '11', status: 'paid', payerName: 'UHC MA', payerType: 'Medicare Advantage', hcc: '19, 85', rxHcc: 'None', raf: '0.670', encType: 'Follow-up', chronicFlag: 'Yes', auditFlag: 'No', sourceSys: 'Epic', lastUpdated: '09/20/24' },
+  { claimId: 'CLM-88402', patientId: 'PID-10023', patientName: 'Johnson, Michael A.', dob: '03/15/1958', gender: 'M', dos: '09/14/24', claimYear: '2024', providerName: 'Dr. Chen', providerNpi: '1098765432', facilityName: 'Northview Medical Associates', facilityType: 'Office', claimType: 'Professional', icd10: 'I50.22', icdDesc: 'Chronic Systolic HF', cpt: '93000', cptDesc: 'Electrocardiogram', pos: '11', status: 'paid', payerName: 'UHC MA', payerType: 'Medicare Advantage', hcc: '85', rxHcc: 'None', raf: '0.368', encType: 'Testing', chronicFlag: 'Yes', auditFlag: 'No', sourceSys: 'Epic', lastUpdated: '09/20/24' },
+  { claimId: 'CLM-86210', patientId: 'PID-09882', patientName: 'Smith, Robert J.', dob: '01/10/1950', gender: 'M', dos: '07/22/24', claimYear: '2024', providerName: 'Dr. Williams', providerNpi: '1122334455', facilityName: 'Westside Clinic', facilityType: 'Office', claimType: 'Professional', icd10: 'J44.1', icdDesc: 'COPD with Exacerbation', cpt: '99214', cptDesc: 'Office/outpatient visit mod mdm', pos: '11', status: 'denied', payerName: 'Aetna', payerType: 'Commercial', hcc: '111', rxHcc: 'None', raf: '0.335', encType: 'Acute Visit', chronicFlag: 'Yes', auditFlag: 'Yes', sourceSys: 'Cerner', lastUpdated: '08/01/24' },
+  { claimId: 'CLM-83902', patientId: 'PID-07611', patientName: 'Doe, Jane T.', dob: '05/22/1965', gender: 'F', dos: '05/10/24', claimYear: '2024', providerName: 'Dr. Kim', providerNpi: '1445566778', facilityName: 'Eastview Health', facilityType: 'Office', claimType: 'Professional', icd10: 'N18.3', icdDesc: 'CKD Stage 3a', cpt: '99213', cptDesc: 'Office/outpatient visit low mdm', pos: '11', status: 'paid', payerName: 'Humana', payerType: 'Medicare Advantage', hcc: '137', rxHcc: 'None', raf: '0.236', encType: 'Follow-up', chronicFlag: 'Yes', auditFlag: 'No', sourceSys: 'Epic', lastUpdated: '05/25/24' },
+  { claimId: 'CLM-90012', patientId: 'PID-11005', patientName: 'Brown, Alice D.', dob: '11/05/1970', gender: 'F', dos: '10/29/24', claimYear: '2024', providerName: 'Dr. Patel', providerNpi: '1998877665', facilityName: 'City Hospital', facilityType: 'Outpatient', claimType: 'Professional', icd10: 'I10', icdDesc: 'Essential Hypertension', cpt: '99215', cptDesc: 'Office visit, high complexity', pos: '22', status: 'pending', payerName: 'UHC MA', payerType: 'Medicare Advantage', hcc: 'None', rxHcc: 'None', raf: '0.000', encType: 'Follow-up', chronicFlag: 'Yes', auditFlag: 'No', sourceSys: 'Epic', lastUpdated: '11/02/24' }
 ];
 
 const hccData = [
@@ -1059,18 +1102,34 @@ function renderClaims(data) {
   const statusColors = {paid:'paid',denied:'denied',pending:'pending'};
   document.getElementById('claimsBody').innerHTML = data.map((c,i) => `
     <tr onclick="selectClaimRow(this)">
-      <td>${c.dos}</td>
-      <td style="font-family:var(--mono)">${c.claim}</td>
-      <td>${c.prov}</td>
-      <td class="cell-icd">${c.cpt}</td>
-      <td class="cell-icd" style="color:var(--accent5)">${c.icd}</td>
-      <td>${c.mod||'—'}</td>
-      <td style="text-align:center">${c.units}</td>
-      <td class="cell-amt">$${c.billed.toFixed(2)}</td>
-      <td class="cell-amt">$${c.allowed.toFixed(2)}</td>
-      <td class="cell-amt" style="color:${c.paid>0?'var(--success)':'var(--danger)'}">$${c.paid.toFixed(2)}</td>
-      <td><span class="status-pill ${statusColors[c.status]}">${c.status.toUpperCase()}</span></td>
-      <td>${c.payer}</td>
+      <td style="font-family:var(--mono)">${c.claimId}</td>
+      <td>${c.patientId}</td>
+      <td>${c.patientName}</td>
+      <td style="font-family:var(--mono)">${c.dob}</td>
+      <td>${c.gender}</td>
+      <td style="font-family:var(--mono)">${c.dos}</td>
+      <td>${c.claimYear}</td>
+      <td>${c.providerName}</td>
+      <td>${c.providerNpi}</td>
+      <td>${c.facilityName}</td>
+      <td>${c.facilityType}</td>
+      <td>${c.claimType}</td>
+      <td class="cell-icd">${c.icd10}</td>
+      <td>${c.icdDesc}</td>
+      <td class="cell-icd" style="color:var(--accent5)">${c.cpt}</td>
+      <td>${c.cptDesc}</td>
+      <td>${c.pos}</td>
+      <td><span class="status-pill ${statusColors[c.status] || ''}">${c.status.toUpperCase()}</span></td>
+      <td>${c.payerName}</td>
+      <td>${c.payerType}</td>
+      <td>${c.hcc}</td>
+      <td>${c.rxHcc}</td>
+      <td class="cell-amt" style="text-align:left">${c.raf}</td>
+      <td>${c.encType}</td>
+      <td>${c.chronicFlag}</td>
+      <td>${c.auditFlag}</td>
+      <td>${c.sourceSys}</td>
+      <td style="font-family:var(--mono)">${c.lastUpdated}</td>
     </tr>
   `).join('');
 }
