@@ -549,6 +549,10 @@
  font-size: 9px; padding: 1px 6px; border-radius: 3px;
  background: #edf2f7; color: var(--text2); font-family: var(--sans);
  }
+  /* Fullscreen-only utility */
+  .fullscreen-only { display: none !important; }
+  .right-panel.fullscreen .fullscreen-only { display: block !important; }
+  .right-panel.fullscreen .form-row.fullscreen-only { display: grid !important; }
 </style>
 
 </head>
@@ -814,9 +818,13 @@
                 <div class="form-label">Coder Notes</div>
                 <input class="form-control" placeholder="Notes...">
               </div>
+              <div class="fullscreen-only">
+                <div class="form-label">Opportunity Flag</div>
+                <input class="form-control" id="newICDOpp" placeholder="Flag code...">
+              </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn primary" style="width:100%;justify-content:center" onclick="addHCCEntry()">+ Add ICD</button>
+                <button class="btn primary" style="justify-content:center; padding: 4px 20px;" onclick="addHCCEntry()">+ Add ICD</button>
               </div>
             </div>
             <div class="code-entries" id="hccEntries"></div>
@@ -871,9 +879,13 @@
                 <div class="form-label">Evidence</div>
                 <input class="form-control" placeholder="PDF p.1, Labs">
               </div>
+              <div class="fullscreen-only">
+                <div class="form-label">Opportunity Flag</div>
+                <input class="form-control" id="newGapOpp" placeholder="Flag code...">
+              </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn primary" style="width:100%;justify-content:center" onclick="addGapEntry()">+ Add Gap</button>
+                <button class="btn primary" style="justify-content:center; padding: 4px 20px;" onclick="addGapEntry()">+ Add Gap</button>
               </div>
             </div>
             <div id="gapEntries"></div>
@@ -932,9 +944,13 @@
                 <div class="form-label">Coder Notes</div>
                 <input class="form-control" placeholder="Notes...">
               </div>
+              <div class="fullscreen-only">
+                <div class="form-label">Opportunity Flag</div>
+                <input class="form-control" id="newCPTOpp" placeholder="Flag code...">
+              </div>
               <div>
                 <div class="form-label">&nbsp;</div>
-                <button class="btn primary" style="width:100%;justify-content:center" onclick="addCPTEntry()">+ Add CPT</button>
+                <button class="btn primary" style="justify-content:center; padding: 4px 20px;" onclick="addCPTEntry()">+ Add CPT</button>
               </div>
             </div>
             <div class="code-entries" id="cptEntries"></div>
@@ -979,6 +995,9 @@
             <div class="form-row" style="margin-bottom:6px">
               <div style="display:flex;gap:4px">
                 <select class="form-select" style="flex:1"><option>Priority: High</option><option>Priority: Medium</option><option>Priority: Low</option></select>
+                <div class="fullscreen-only" style="width:120px">
+                  <input class="form-control" id="newCPTGapOpp" placeholder="Opportunity Flag">
+                </div>
                 <button class="btn primary" onclick="addCPTGapEntry()">+ Add CPT Gap</button>
               </div>
             </div>
@@ -1251,11 +1270,12 @@ function renderHCC() {
                 </select>
               </div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editICD_notes" value="${h.notes || ''}"></div>
+              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editICD_opp" value="${h.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
-                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditICD()">Cancel</button>
-                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateICD(${i})">Update ICD</button>
+                  <button class="btn" style="width:80px; justify-content:center; height:22px;" onclick="cancelEditICD()">Cancel</button>
+                  <button class="btn primary" style="width:100px; justify-content:center; height:22px;" onclick="updateICD(${i})">Update ICD</button>
                 </div>
               </div>
             </div>
@@ -1282,7 +1302,8 @@ function addHCCEntry() {
   const icd = document.getElementById('newICD').value || 'Z87.891';
   const hcc = document.getElementById('newHCC').value || '0';
   const raf = document.getElementById('newRAF').value || '0.000';
-  hccData.push({icd,desc:'New diagnosis',hcc,raf,dos:'09/14/24',conf:'Medium',src:'Manual'});
+  const opp = document.getElementById('newICDOpp').value || '';
+  hccData.push({icd,desc:'New diagnosis',hcc,raf,dos:'09/14/24',conf:'Medium',src:'Manual',opp});
   renderHCC();
   document.getElementById('newICD').value='';
   showToast(`HCC ${icd} added`);
@@ -1325,20 +1346,14 @@ function renderGaps() {
               <div><div class="form-label">RAF Impact</div><input class="form-control" id="editGap_raf" value="${g.raf}"></div>
             </div>
             <div class="form-row cols-3" style="margin-bottom:2px">
-              <div>
-                <div class="form-label">Priority</div>
-                <select class="form-select" id="editGap_priority">
-                  <option ${g.priority === 'High' ? 'selected' : ''}>High</option>
-                  <option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option>
-                  <option ${g.priority === 'Low' ? 'selected' : ''}>Low</option>
-                </select>
-              </div>
+              <div><div class="form-label">Priority</div><select class="form-select" id="editGap_priority"><option ${g.priority === 'High' ? 'selected' : ''}>High</option><option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option><option ${g.priority === 'Low' ? 'selected' : ''}>Low</option></select></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editGap_evidence" value="${g.evidence || ''}"></div>
+              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editGap_opp" value="${g.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
-                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditGap()">Cancel</button>
-                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateGap(${i})">Update Gap</button>
+                  <button class="btn" style="width:80px; justify-content:center; height:22px;" onclick="cancelEditGap()">Cancel</button>
+                  <button class="btn primary" style="width:100px; justify-content:center; height:22px;" onclick="updateGap(${i})">Update Gap</button>
                 </div>
               </div>
             </div>
@@ -1368,7 +1383,8 @@ function renderGaps() {
 }
 
 function addGapEntry() {
-  gapData.push({icd:'I50.22',desc:'New gap entry',hcc:'85',raf:'0.368',priority:'High',type:'Recapture'});
+  const opp = document.getElementById('newGapOpp')?.value || '';
+  gapData.push({icd:'I50.22',desc:'New gap entry',hcc:'85',raf:'0.368',priority:'High',type:'Recapture',opp});
   renderGaps();
   showToast('Gap added');
 }
@@ -1411,11 +1427,12 @@ function renderCPT() {
             <div class="form-row cols-3" style="margin-bottom:2px">
               <div><div class="form-label">Expected $</div><input class="form-control" id="editCPT_expected" value="${c.expected || ''}"></div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editCPT_notes" value="${c.notes || ''}"></div>
+              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPT_opp" value="${c.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
-                  <button class="btn" style="flex:1; justify-content:center; height:22px;" onclick="cancelEditCPT()">Cancel</button>
-                  <button class="btn primary" style="flex:1; justify-content:center; height:22px;" onclick="updateCPT(${i})">Update CPT</button>
+                  <button class="btn" style="width:80px; justify-content:center; height:22px;" onclick="cancelEditCPT()">Cancel</button>
+                  <button class="btn primary" style="width:100px; justify-content:center; height:22px;" onclick="updateCPT(${i})">Update CPT</button>
                 </div>
               </div>
             </div>
@@ -1439,7 +1456,8 @@ function renderCPT() {
 
 function addCPTEntry() {
   const cpt = document.getElementById('newCPT').value || '99490';
-  cptData.push({cpt,desc:'New procedure',mod:'',units:1,dos:'09/14/24',icd:'E11.65',pos:'11'});
+  const opp = document.getElementById('newCPTOpp')?.value || '';
+  cptData.push({cpt,desc:'New procedure',mod:'',units:1,dos:'09/14/24',icd:'E11.65',pos:'11',opp});
   renderCPT();
   document.getElementById('newCPT').value='';
   showToast(`CPT ${cpt} added`);
@@ -1477,6 +1495,7 @@ function renderCPTGaps() {
             <div class="form-row cols-2" style="margin-bottom:6px">
               <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}"></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
+              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
             </div>
             <div class="form-row" style="margin-bottom:2px">
               <div style="display:flex; gap:6px; justify-content:space-between; align-items:flex-end;">
@@ -1519,7 +1538,8 @@ function renderCPTGaps() {
 }
 
 function addCPTGapEntry() {
-  cptGapData.push({cpt:'G0439',desc:'New CPT gap',reason:'Missing Procedure',impact:'$0.00',priority:'Low'});
+  const opp = document.getElementById('newCPTGapOpp')?.value || '';
+  cptGapData.push({cpt:'G0439',desc:'New CPT gap',reason:'Missing Procedure',impact:'$0.00',priority:'Low',opp});
   renderCPTGaps();
   showToast('CPT Gap added');
 }
@@ -1544,6 +1564,7 @@ function updateICD(i) {
   hccData[i].src = document.getElementById('editICD_src').value;
   hccData[i].conf = document.getElementById('editICD_conf').value;
   hccData[i].notes = document.getElementById('editICD_notes').value;
+  hccData[i].opp = document.getElementById('editICD_opp').value;
   editingICDIndex = -1;
   renderHCC();
   showToast('ICD updated successfully');
@@ -1558,6 +1579,7 @@ function updateGap(i) {
   gapData[i].raf = document.getElementById('editGap_raf').value;
   gapData[i].priority = document.getElementById('editGap_priority').value;
   gapData[i].evidence = document.getElementById('editGap_evidence').value;
+  gapData[i].opp = document.getElementById('editGap_opp').value;
   editingGapIndex = -1;
   renderGaps();
   showToast('Gap updated successfully');
@@ -1575,6 +1597,7 @@ function updateCPT(i) {
   cptData[i].pos = document.getElementById('editCPT_pos').value;
   cptData[i].expected = document.getElementById('editCPT_expected').value;
   cptData[i].notes = document.getElementById('editCPT_notes').value;
+  cptData[i].opp = document.getElementById('editCPT_opp').value;
   editingCPTIndex = -1;
   renderCPT();
   showToast('CPT updated successfully');
@@ -1589,6 +1612,7 @@ function updateCPTGap(i) {
   cptGapData[i].desc = document.getElementById('editCPTGap_desc').value;
   cptGapData[i].evidence = document.getElementById('editCPTGap_evidence').value;
   cptGapData[i].priority = document.getElementById('editCPTGap_priority').value;
+  cptGapData[i].opp = document.getElementById('editCPTGap_opp').value;
   editingCPTGapIndex = -1;
   renderCPTGaps();
   showToast('CPT Gap updated successfully');
