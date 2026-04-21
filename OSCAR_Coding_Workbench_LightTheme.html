@@ -811,7 +811,7 @@
             <div class="form-row cols-2" style="margin-bottom:6px">
               <div>
                 <div class="form-label">Description</div>
-                <input class="form-control" id="newDesc" placeholder="T2DM with Hyperglycemia">
+                <input class="form-control" id="newDesc" placeholder="T2DM with Hyperglycemia" disabled>
               </div>
               <div>
                 <div class="form-label">Evidence Source</div>
@@ -879,7 +879,7 @@
             <div class="form-row cols-2" style="margin-bottom:6px">
               <div>
                 <div class="form-label">Description</div>
-                <input class="form-control" placeholder="Chronic Systolic HF">
+                <input class="form-control" placeholder="Chronic Systolic HF" disabled>
               </div>
               <div>
                 <div class="form-label">RAF Impact</div>
@@ -940,7 +940,7 @@
             <div class="form-row cols-3" style="margin-bottom:6px">
               <div>
                 <div class="form-label">Description</div>
-                <input class="form-control" placeholder="Office visit, high complexity">
+                <input class="form-control" placeholder="Office visit, high complexity" disabled>
               </div>
               <div>
                 <div class="form-label">Linked ICD</div>
@@ -1001,7 +1001,7 @@
             <div class="form-row cols-2" style="margin-bottom:6px">
               <div>
                 <div class="form-label">Description</div>
-                <input class="form-control" placeholder="ECG not billed">
+                <input class="form-control" placeholder="ECG not billed" disabled>
               </div>
               <div>
                 <div class="form-label">Evidence</div>
@@ -1283,7 +1283,7 @@ function renderHCC() {
               <div><div class="form-label">DOS</div><input class="form-control" id="editICD_dos" value="${h.dos || ''}"></div>
             </div>
             <div class="form-row cols-2" style="margin-bottom:6px">
-              <div><div class="form-label">Description</div><input class="form-control" id="editICD_desc" value="${h.desc || ''}"></div>
+              <div><div class="form-label">Description</div><input class="form-control" id="editICD_desc" value="${h.desc || ''}" disabled></div>
               <div>
                 <div class="form-label">Evidence Source</div>
                 <select class="form-select" id="editICD_src">
@@ -1385,7 +1385,7 @@ function renderGaps() {
               </div>
             </div>
             <div class="form-row cols-2" style="margin-bottom:6px">
-              <div><div class="form-label">Description</div><input class="form-control" id="editGap_desc" value="${g.desc}"></div>
+              <div><div class="form-label">Description</div><input class="form-control" id="editGap_desc" value="${g.desc}" disabled></div>
               <div><div class="form-label">RAF Impact</div><input class="form-control" id="editGap_raf" value="${g.raf}"></div>
             </div>
             <div class="form-row cols-3" style="margin-bottom:2px">
@@ -1456,7 +1456,7 @@ function renderCPT() {
               <div><div class="form-label">DOS</div><input class="form-control" id="editCPT_dos" value="${c.dos}"></div>
             </div>
             <div class="form-row cols-3" style="margin-bottom:6px">
-              <div><div class="form-label">Description</div><input class="form-control" id="editCPT_desc" value="${c.desc}"></div>
+              <div><div class="form-label">Description</div><input class="form-control" id="editCPT_desc" value="${c.desc}" disabled></div>
               <div><div class="form-label">Linked ICD</div><input class="form-control" id="editCPT_icd" value="${c.icd}"></div>
               <div>
                 <div class="form-label">Place of Service</div>
@@ -1536,7 +1536,7 @@ function renderCPTGaps() {
               <div><div class="form-label">Revenue Impact</div><input class="form-control" id="editCPTGap_impact" value="${g.impact}"></div>
             </div>
             <div class="form-row cols-2" style="margin-bottom:6px">
-              <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}"></div>
+              <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}" disabled></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
               <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
             </div>
