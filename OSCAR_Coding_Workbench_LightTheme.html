@@ -653,11 +653,11 @@
           <span class="section-title">💰 Claims Data</span>
           <span class="sep"></span>
           <input class="mini-input" placeholder="🔍 Search claims..." oninput="filterClaims(this.value)">
-          <span class="filter-chip on" onclick="toggleFilter(this,'All')">All</span>
-          <span class="filter-chip" onclick="toggleFilter(this,'Paid')">Paid</span>
-          <span class="filter-chip" onclick="toggleFilter(this,'Denied')">Denied</span>
-          <span class="filter-chip" onclick="toggleFilter(this,'Pending')">Pending</span>
-          <button class="btn" onclick="toggleGroupBy()">⊞ Group: <span id="groupLabel">DOS</span></button>
+          <span class="filter-chip on" onclick="toggleClaimsFilter(this,'All')">All</span>
+          <span class="filter-chip" onclick="toggleClaimsFilter(this,'Paid')">Paid</span>
+          <span class="filter-chip" onclick="toggleClaimsFilter(this,'Denied')">Denied</span>
+          <span class="filter-chip" onclick="toggleClaimsFilter(this,'Pending')">Pending</span>
+          <button class="btn" onclick="toggleGroupBy()">⊞ Group: <span id="groupLabel">Provider</span></button>
           <button class="btn" onclick="toggleColSelector()">⚙ Cols</button>
           <button class="btn" onclick="toggleClaimsFullscreen(this)" style="margin-left:4px;">⛶ Full</button>
         </div>
@@ -1100,38 +1100,41 @@ function toggleFilter(el, val) {
 // ── RENDER CLAIMS ──
 function renderClaims(data) {
   const statusColors = {paid:'paid',denied:'denied',pending:'pending'};
-  document.getElementById('claimsBody').innerHTML = data.map((c,i) => `
-    <tr onclick="selectClaimRow(this)">
-      <td style="font-family:var(--mono)">${c.claimId}</td>
-      <td>${c.patientId}</td>
-      <td>${c.patientName}</td>
-      <td style="font-family:var(--mono)">${c.dob}</td>
-      <td>${c.gender}</td>
-      <td style="font-family:var(--mono)">${c.dos}</td>
-      <td>${c.claimYear}</td>
-      <td>${c.providerName}</td>
-      <td>${c.providerNpi}</td>
-      <td>${c.facilityName}</td>
-      <td>${c.facilityType}</td>
-      <td>${c.claimType}</td>
-      <td class="cell-icd">${c.icd10}</td>
-      <td>${c.icdDesc}</td>
-      <td class="cell-icd" style="color:var(--accent5)">${c.cpt}</td>
-      <td>${c.cptDesc}</td>
-      <td>${c.pos}</td>
-      <td><span class="status-pill ${statusColors[c.status] || ''}">${c.status.toUpperCase()}</span></td>
-      <td>${c.payerName}</td>
-      <td>${c.payerType}</td>
-      <td>${c.hcc}</td>
-      <td>${c.rxHcc}</td>
-      <td class="cell-amt" style="text-align:left">${c.raf}</td>
-      <td>${c.encType}</td>
-      <td>${c.chronicFlag}</td>
-      <td>${c.auditFlag}</td>
-      <td>${c.sourceSys}</td>
-      <td style="font-family:var(--mono)">${c.lastUpdated}</td>
-    </tr>
-  `).join('');
+
+  document.getElementById('claimsBody').innerHTML = data.map((c,i) => {
+    return `
+      <tr onclick="selectClaimRow(this)">
+        <td style="font-family:var(--mono)">${c.claimId}</td>
+        <td>${c.patientId}</td>
+        <td>${c.patientName}</td>
+        <td style="font-family:var(--mono)">${c.dob}</td>
+        <td>${c.gender}</td>
+        <td style="font-family:var(--mono)">${c.dos}</td>
+        <td>${c.claimYear}</td>
+        <td>${c.providerName}</td>
+        <td>${c.providerNpi}</td>
+        <td>${c.facilityName}</td>
+        <td>${c.facilityType}</td>
+        <td>${c.claimType}</td>
+        <td class="cell-icd">${c.icd10}</td>
+        <td>${c.icdDesc}</td>
+        <td class="cell-icd" style="color:var(--accent5)">${c.cpt}</td>
+        <td>${c.cptDesc}</td>
+        <td>${c.pos}</td>
+        <td><span class="status-pill ${statusColors[c.status] || ''}">${c.status.toUpperCase()}</span></td>
+        <td>${c.payerName}</td>
+        <td>${c.payerType}</td>
+        <td>${c.hcc}</td>
+        <td>${c.rxHcc}</td>
+        <td class="cell-amt" style="text-align:left">${c.raf}</td>
+        <td>${c.encType}</td>
+        <td>${c.chronicFlag}</td>
+        <td>${c.auditFlag}</td>
+        <td>${c.sourceSys}</td>
+        <td style="font-family:var(--mono)">${c.lastUpdated}</td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function selectClaimRow(tr) {
@@ -1139,18 +1142,46 @@ function selectClaimRow(tr) {
   tr.classList.add('selected');
 }
 
-let groupMode = 'DOS';
+let groupMode = 'Provider';
 function toggleGroupBy() {
-  const modes = ['DOS','Provider','CPT','Status'];
+  const modes = ['None','DOS','Provider','CPT','Status'];
   groupMode = modes[(modes.indexOf(groupMode)+1)%modes.length];
   document.getElementById('groupLabel').textContent = groupMode;
   showToast(`Grouped by ${groupMode}`);
+  applyClaimsFilters();
+}
+
+let currentClaimsFilter = 'All';
+
+function toggleClaimsFilter(el, val) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  currentClaimsFilter = val;
+  applyClaimsFilters();
 }
 
 function filterClaims(val) {
-  const filtered = claims.filter(c =>
-    !val || Object.values(c).some(v => String(v).toLowerCase().includes(val.toLowerCase()))
-  );
+  applyClaimsFilters();
+}
+
+function applyClaimsFilters() {
+  const searchVal = document.querySelector('.claims-toolbar .mini-input')?.value || '';
+  const val = searchVal.toLowerCase();
+  const statusFilter = currentClaimsFilter.toLowerCase();
+  
+  let filtered = claims.filter(c => {
+    const matchesSearch = !val || Object.values(c).some(v => String(v).toLowerCase().includes(val));
+    const matchesStatus = statusFilter === 'all' || (c.status || '').toLowerCase() === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const groupFieldMap = { 'DOS': 'dos', 'Provider': 'providerName', 'CPT': 'cpt', 'Status': 'status' };
+  if (groupMode !== 'None' && groupFieldMap[groupMode]) {
+    const field = groupFieldMap[groupMode];
+    filtered.sort((a,b) => String(a[field]||'').localeCompare(String(b[field]||'')));
+  }
+
   renderClaims(filtered);
 }
 
@@ -1449,7 +1480,7 @@ function toggleClaimsFullscreen(btn) {
 
 // ── INIT ──
 renderEncounters();
-renderClaims(claims);
+applyClaimsFilters();
 renderHCC();
 renderGaps();
 renderCPT();
