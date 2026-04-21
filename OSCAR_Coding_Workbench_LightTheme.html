@@ -1116,17 +1116,17 @@ function renderClaims(data) {
         <td>${c.facilityName}</td>
         <td>${c.facilityType}</td>
         <td>${c.claimType}</td>
-        <td class="cell-icd">${c.icd10}</td>
+        <td class="cell-icd" data-tip="ICD-10: &quot;${c.icd10}&quot;">${c.icd10}</td>
         <td>${c.icdDesc}</td>
-        <td class="cell-icd" style="color:var(--accent5)">${c.cpt}</td>
+        <td class="cell-icd" style="color:var(--accent5)" data-tip="CPT: &quot;${c.cpt}&quot;">${c.cpt}</td>
         <td>${c.cptDesc}</td>
         <td>${c.pos}</td>
         <td><span class="status-pill ${statusColors[c.status] || ''}">${c.status.toUpperCase()}</span></td>
         <td>${c.payerName}</td>
         <td>${c.payerType}</td>
-        <td>${c.hcc}</td>
+        <td data-tip="HCC: &quot;${c.hcc}&quot;">${c.hcc}</td>
         <td>${c.rxHcc}</td>
-        <td class="cell-amt" style="text-align:left">${c.raf}</td>
+        <td class="cell-amt" style="text-align:left" data-tip="RAF: &quot;${c.raf}&quot;">${c.raf}</td>
         <td>${c.encType}</td>
         <td>${c.chronicFlag}</td>
         <td>${c.auditFlag}</td>
@@ -1265,11 +1265,11 @@ function renderHCC() {
     }
     return `
       <div class="code-entry">
-        <span class="code-tag" style="color:var(--accent2)">${h.icd}</span>
+        <span class="code-tag" style="color:var(--accent2)" data-tip="ICD: &quot;${h.icd}&quot;">${h.icd}</span>
         <span class="code-desc">${h.desc}</span>
-        <span class="code-hcc">HCC${h.hcc}</span>
-        <span class="code-raf">+${h.raf}</span>
-        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">${h.dos}</span>
+        <span class="code-hcc" data-tip="HCC: &quot;${h.hcc}&quot;">HCC${h.hcc}</span>
+        <span class="code-raf" data-tip="RAF: &quot;${h.raf}&quot;">+${h.raf}</span>
+        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="DOS: &quot;${h.dos}&quot;">${h.dos}</span>
         <button class="resolve-btn" onclick="editICD(${i})">🖊</button>
         <span class="del-btn" onclick="removeHCC(${i})">✕</span>
       </div>
@@ -1348,10 +1348,15 @@ function renderGaps() {
     }
     return `
       <div class="gap-entry ${i===2?'resolved':''}">
-        <span class="gap-code" style="color:var(--accent2)">${g.icd}</span>
+        <span class="gap-code" style="color:var(--accent2)" data-tip="ICD Gap: &quot;${g.icd}&quot;">${g.icd}</span>
         <div style="flex:1">
           <div style="font-size:10px;color:var(--text)">${g.desc}</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">HCC${g.hcc} · RAF+${g.raf} · ${g.type} · ${g.priority}</div>
+          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">
+            <span data-tip="HCC: &quot;${g.hcc}&quot;">HCC${g.hcc}</span> · 
+            <span data-tip="RAF Impact: &quot;${g.raf}&quot;">RAF+${g.raf}</span> · 
+            <span data-tip="Gap Type: &quot;${g.type}&quot;">${g.type}</span> · 
+            <span data-tip="Priority: &quot;${g.priority}&quot;">${g.priority}</span>
+          </div>
         </div>
         <div class="gap-action">
           <button class="resolve-btn" onclick="editGap(${i})">🖊</button>
@@ -1420,10 +1425,11 @@ function renderCPT() {
     }
     return `
       <div class="code-entry">
-        <span class="code-tag" style="color:var(--accent2)">${c.cpt}</span>
+        <span class="code-tag" style="color:var(--accent2)" data-tip="CPT: &quot;${c.cpt}&quot;">${c.cpt}</span>
         <span class="code-desc">${c.desc}</span>
-        ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)">Mod:${c.mod}</span>`:''}
-        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)">x${c.units}</span>
+        ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)" data-tip="Modifier: &quot;${c.mod}&quot;">Mod:${c.mod}</span>`:''}
+        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="Units: &quot;${c.units}&quot;">x${c.units}</span>
+        <span style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-left:4px;" data-tip="DOS: &quot;${c.dos}&quot;">${c.dos}</span>
         <button class="resolve-btn" onclick="editCPT(${i})">🖊</button>
         <span class="del-btn" onclick="removeCPT(${i})">✕</span>
       </div>
@@ -1494,10 +1500,14 @@ function renderCPTGaps() {
     }
     return `
       <div class="gap-entry">
-        <span class="gap-code" style="color:var(--accent2)">${g.cpt}</span>
+        <span class="gap-code" style="color:var(--accent2)" data-tip="CPT Gap: &quot;${g.cpt}&quot;">${g.cpt}</span>
         <div style="flex:1">
           <div style="font-size:10px;color:var(--text)">${g.desc}</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.reason} · ${g.impact} · ${g.priority}</div>
+          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">
+            <span data-tip="Gap Reason: &quot;${g.reason}&quot;">${g.reason}</span> · 
+            <span data-tip="Revenue Impact: &quot;${g.impact}&quot;">${g.impact}</span> · 
+            <span data-tip="Priority: &quot;${g.priority}&quot;">${g.priority}</span>
+          </div>
         </div>
         <div class="gap-action">
           <button class="resolve-btn" onclick="editCPTGap(${i})">🖊</button>
