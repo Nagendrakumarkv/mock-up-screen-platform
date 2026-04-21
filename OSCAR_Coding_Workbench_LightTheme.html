@@ -552,7 +552,19 @@
   /* Fullscreen-only utility */
   .fullscreen-only { display: none !important; }
   .right-panel.fullscreen .fullscreen-only { display: block !important; }
-  .right-panel.fullscreen .form-row.fullscreen-only { display: grid !important; }
+  /* Fullscreen row refinements */
+  .right-panel.fullscreen .code-entry,
+  .right-panel.fullscreen .gap-entry {
+    gap: 16px !important;
+  }
+  .right-panel.fullscreen .code-desc,
+  .right-panel.fullscreen .gap-desc {
+    flex: 1;
+  }
+  .right-panel.fullscreen .code-tag,
+  .right-panel.fullscreen .gap-code {
+    min-width: 80px;
+  }
 </style>
 
 </head>
@@ -1287,9 +1299,9 @@ function renderHCC() {
       <div class="code-entry">
         <span class="code-tag" style="color:var(--accent2)" data-tip="ICD: &quot;${h.icd}&quot;">${h.icd}</span>
         <span class="code-desc" data-tip="Description: &quot;${h.desc}&quot;">${h.desc}</span>
-        <span class="code-hcc" data-tip="HCC: &quot;${h.hcc}&quot;">HCC${h.hcc}</span>
-        <span class="code-raf" data-tip="RAF: &quot;${h.raf}&quot;">+${h.raf}</span>
-        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="DOS: &quot;${h.dos}&quot;">${h.dos}</span>
+        <span class="code-hcc fullscreen-only" data-tip="HCC: &quot;${h.hcc}&quot;">HCC${h.hcc}</span>
+        <span class="code-raf fullscreen-only" data-tip="RAF: &quot;${h.raf}&quot;">+${h.raf}</span>
+        <span class="fullscreen-only" style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="DOS: &quot;${h.dos}&quot;">${h.dos}</span>
         <button class="resolve-btn" onclick="editICD(${i})">🖊</button>
         <span class="del-btn" onclick="removeHCC(${i})">✕</span>
       </div>
@@ -1366,7 +1378,7 @@ function renderGaps() {
         <span class="gap-code" style="color:var(--accent2)" data-tip="ICD Gap: &quot;${g.icd}&quot;">${g.icd}</span>
         <div style="flex:1">
           <div style="font-size:10px;color:var(--text)" data-tip="Description: &quot;${g.desc}&quot;">${g.desc}</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">
+          <div class="fullscreen-only" style="font-size:9px;color:var(--text3);font-family:var(--mono)">
             <span data-tip="HCC: &quot;${g.hcc}&quot;">HCC${g.hcc}</span> · 
             <span data-tip="RAF Impact: &quot;${g.raf}&quot;">RAF+${g.raf}</span> · 
             <span data-tip="Gap Type: &quot;${g.type}&quot;">${g.type}</span> · 
@@ -1444,9 +1456,9 @@ function renderCPT() {
       <div class="code-entry">
         <span class="code-tag" style="color:var(--accent2)" data-tip="CPT: &quot;${c.cpt}&quot;">${c.cpt}</span>
         <span class="code-desc" data-tip="Description: &quot;${c.desc}&quot;">${c.desc}</span>
-        ${c.mod?`<span style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)" data-tip="Modifier: &quot;${c.mod}&quot;">Mod:${c.mod}</span>`:''}
-        <span style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="Units: &quot;${c.units}&quot;">x${c.units}</span>
-        <span style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-left:4px;" data-tip="DOS: &quot;${c.dos}&quot;">${c.dos}</span>
+        ${c.mod?`<span class="fullscreen-only" style="font-size:9px;padding:1px 4px;background:var(--surface3);border-radius:3px;font-family:var(--mono)" data-tip="Modifier: &quot;${c.mod}&quot;">Mod:${c.mod}</span>`:''}
+        <span class="fullscreen-only" style="font-size:9px;color:var(--text3);font-family:var(--mono)" data-tip="Units: &quot;${c.units}&quot;">x${c.units}</span>
+        <span class="fullscreen-only" style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-left:4px;" data-tip="DOS: &quot;${c.dos}&quot;">${c.dos}</span>
         <button class="resolve-btn" onclick="editCPT(${i})">🖊</button>
         <span class="del-btn" onclick="removeCPT(${i})">✕</span>
       </div>
@@ -1522,7 +1534,7 @@ function renderCPTGaps() {
         <span class="gap-code" style="color:var(--accent2)" data-tip="CPT Gap: &quot;${g.cpt}&quot;">${g.cpt}</span>
         <div style="flex:1">
           <div style="font-size:10px;color:var(--text)" data-tip="Description: &quot;${g.desc}&quot;">${g.desc}</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">
+          <div class="fullscreen-only" style="font-size:9px;color:var(--text3);font-family:var(--mono)">
             <span data-tip="Gap Reason: &quot;${g.reason}&quot;">${g.reason}</span> · 
             <span data-tip="Revenue Impact: &quot;${g.impact}&quot;">${g.impact}</span> · 
             <span data-tip="Priority: &quot;${g.priority}&quot;">${g.priority}</span>
