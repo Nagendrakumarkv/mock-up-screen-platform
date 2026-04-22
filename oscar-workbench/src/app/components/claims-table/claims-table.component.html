@@ -1,0 +1,57 @@
+<div class="claims-section" id="claimsSection" [class.fullscreen]="isFullscreen">
+  <div class="claims-toolbar">
+    <span class="section-title">💰 Claims Data</span>
+    <span class="sep"></span>
+    <input class="mini-input" placeholder="🔍 Search claims..." (input)="onSearch($any($event.target).value)">
+    <span class="filter-chip" [class.on]="statusFilter === 'All'" (click)="setStatus('All')">All</span>
+    <span class="filter-chip" [class.on]="statusFilter === 'Paid'" (click)="setStatus('Paid')">Paid</span>
+    <span class="filter-chip" [class.on]="statusFilter === 'Denied'" (click)="setStatus('Denied')">Denied</span>
+    <span class="filter-chip" [class.on]="statusFilter === 'Pending'" (click)="setStatus('Pending')">Pending</span>
+    <button class="btn" (click)="showToast('Grouping not implemented')">⊞ Group: Provider</button>
+    <button class="btn" (click)="toggleColSelector()">⚙ Cols</button>
+    <button class="btn" (click)="toggleFullscreen()" style="margin-left:4px;">⛶ Full</button>
+  </div>
+  
+  <div *ngIf="showColSelector" style="padding: 6px 8px; border-bottom: 1px solid var(--border); background: #ffffff; gap: 12px; flex-wrap: wrap; font-size: 10px; font-family: var(--sans); display: flex;">
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> Claim ID</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> Date of Service</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> Provider Name</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> ICD-10 Codes</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> CPT/HCPCS Codes</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> Claim Status</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> Payer Name</label>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" checked> RAF Score</label>
+  </div>
+  
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th (click)="sortBy('claimId')">Claim ID {{ sortKey === 'claimId' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('dos')">DOS {{ sortKey === 'dos' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('providerName')">Provider Name {{ sortKey === 'providerName' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('icd10')">ICD-10 Codes {{ sortKey === 'icd10' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('cpt')">CPT/HCPCS Codes {{ sortKey === 'cpt' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('status')">Claim Status {{ sortKey === 'status' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+          <th (click)="sortBy('payerName')">Payer Name</th>
+          <th (click)="sortBy('raf')">RAF Score {{ sortKey === 'raf' ? (sortAsc ? '↑' : '↓') : '↕' }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of claims">
+          <td>{{ c.claimId }}</td>
+          <td>{{ c.dos }}</td>
+          <td>{{ c.providerName }}</td>
+          <td>{{ c.icd10 }}</td>
+          <td>{{ c.cpt }}</td>
+          <td><span class="status-badge" [ngClass]="c.status">{{ c.status | titlecase }}</span></td>
+          <td>{{ c.payerName }}</td>
+          <td>{{ c.raf }}</td>
+        </tr>
+        <tr *ngIf="claims.length === 0">
+          <td colspan="8" style="text-align: center; padding: 20px; color: var(--text3);">No claims found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

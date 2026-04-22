@@ -1,0 +1,3 @@
+Convert this entire html in angular 8 project
+
+make each section as separate reusuable component club all into main component and for all 4 tabs text field make a configuration data to load the text field dynamically

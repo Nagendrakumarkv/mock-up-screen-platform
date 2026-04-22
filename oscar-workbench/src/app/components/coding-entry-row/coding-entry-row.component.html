@@ -1,0 +1,64 @@
+<!-- DISPLAY MODE -->
+<div *ngIf="!editMode" class="code-entry" (dblclick)="editMode = true">
+  <span class="code-tag" *ngIf="entry.icd">{{ entry.icd }}</span>
+  <span class="code-tag" *ngIf="entry.cpt">{{ entry.cpt }}</span>
+  
+  <span class="code-desc">{{ entry.desc }}</span>
+  
+  <span *ngIf="entry.hcc" class="code-hcc">HCC{{ entry.hcc }}</span>
+  <span *ngIf="entry.raf" class="code-raf">{{ entry.raf }}</span>
+  
+  <span *ngIf="entry.priority" 
+        class="priority-chip" 
+        [ngClass]="getPriorityClass(entry.priority)">
+    {{ entry.priority }}
+  </span>
+  
+  <!-- Content visible only in Fullscreen -->
+  <ng-container *ngIf="isFullscreen">
+    <span *ngIf="entry.dos" style="color:var(--text3); font-size:9px;">{{ entry.dos }}</span>
+    <span *ngIf="entry.src" style="color:var(--accent5); font-size:9px;">{{ entry.src }}</span>
+    <span *ngIf="entry.conf" style="color:var(--accent2); font-size:9px;">{{ entry.conf }}</span>
+  </ng-container>
+
+  <button class="resolve-btn" (click)="editMode = true" title="Edit row">✎</button>
+  <button class="del-btn" (click)="onDelete()">✕</button>
+</div>
+
+<!-- EDIT MODE (Inline Form) -->
+<div *ngIf="editMode" class="edit-form-container">
+  <div class="edit-header">
+    <span class="section-icon">📝</span>
+    <span class="section-label" style="color:var(--accent)">Editing Entry</span>
+  </div>
+  
+  <div class="form-row cols-4" *ngFor="let row of fieldRows">
+    <div *ngFor="let field of row">
+      <div class="form-label">{{ field.label }}</div>
+      
+      <!-- Text/Number Input -->
+      <input *ngIf="field.type === 'text' || field.type === 'number'" 
+             class="form-control" 
+             [(ngModel)]="tempEntry[field.key]"
+             [placeholder]="field.placeholder || ''"
+             [disabled]="field.disabled">
+             
+      <!-- Select Input -->
+      <select *ngIf="field.type === 'select'" 
+              class="form-select" 
+              [(ngModel)]="tempEntry[field.key]">
+        <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+      </select>
+      
+      <!-- Opp Lookup -->
+      <app-opp-lookup *ngIf="field.type === 'opp-lookup'" 
+                     [(value)]="tempEntry[field.key]">
+      </app-opp-lookup>
+    </div>
+  </div>
+
+  <div class="edit-actions">
+    <button class="btn primary" (click)="onUpdate()">Update</button>
+    <button class="btn" (click)="editMode = false; onCancel()">Cancel</button>
+  </div>
+</div>

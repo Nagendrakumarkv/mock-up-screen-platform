@@ -1,0 +1,60 @@
+<div class="coding-section">
+  <!-- Section Header (Collapsible) -->
+  <div class="section-header" (click)="isOpen = !isOpen">
+    <span class="chevron" [class.open]="isOpen">▶</span>
+    <span class="section-icon">{{ getSectionIcon() }}</span>
+    <span class="section-label">{{ getSectionLabel() }}</span>
+    <span class="count" *ngIf="!isOpen" style="margin-left:auto">
+      <span class="badge blue">{{ entries.length }}</span>
+    </span>
+  </div>
+
+  <!-- Section Body (Add Form + Entries) -->
+  <div class="section-body" *ngIf="isOpen">
+    <!-- Dynamic Add Form -->
+    <div class="form-row cols-4" *ngFor="let row of fieldRows">
+      <div *ngFor="let field of row">
+        <ng-container *ngIf="!field.editOnly">
+          <div class="form-label">{{ field.label }}</div>
+          
+          <input *ngIf="field.type === 'text' || field.type === 'number'" 
+                 class="form-control" 
+                 [(ngModel)]="newEntry[field.key]"
+                 [placeholder]="field.placeholder || ''"
+                 [disabled]="field.disabled">
+                 
+          <select *ngIf="field.type === 'select'" 
+                  class="form-select" 
+                  [(ngModel)]="newEntry[field.key]">
+            <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+          </select>
+          
+          <app-opp-lookup *ngIf="field.type === 'opp-lookup'" 
+                         [(value)]="newEntry[field.key]">
+          </app-opp-lookup>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Action Button for Add -->
+    <div class="form-row" style="margin-top: 10px; display:flex; justify-content: flex-start;">
+      <button class="btn primary" style="padding: 6px 30px;" (click)="addEntry()">
+        + Add {{ getSectionLabel() }}
+      </button>
+    </div>
+
+    <hr style="border:0; border-top:1px solid var(--border); margin:12px 0 8px">
+
+    <!-- Entries List -->
+    <div class="entries-list">
+      <app-coding-entry-row 
+        *ngFor="let entry of entries; let i = index"
+        [entry]="entry"
+        [tabId]="tabId"
+        [isFullscreen]="isFullscreen"
+        (update)="updateEntry(i, $event)"
+        (delete)="deleteEntry(i)">
+      </app-coding-entry-row>
+    </div>
+  </div>
+</div>

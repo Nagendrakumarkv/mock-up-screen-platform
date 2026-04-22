@@ -1,0 +1,50 @@
+<div class="right-panel" [class.fullscreen]="isFullscreen">
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tab-btn" [class.active]="activeTab === 'hcc'" (click)="setTab('hcc')">
+      ICD <span class="tab-count">5</span>
+    </div>
+    <div class="tab-btn" [class.active]="activeTab === 'gaps'" (click)="setTab('gaps')">
+      ICD Gaps <span class="tab-count">2</span>
+    </div>
+    <div class="tab-btn" [class.active]="activeTab === 'cpt'" (click)="setTab('cpt')">
+      CPT <span class="tab-count">3</span>
+    </div>
+    <div class="tab-btn" [class.active]="activeTab === 'cptgaps'" (click)="setTab('cptgaps')">
+      CPT Gaps <span class="tab-count">4</span>
+    </div>
+    
+    <button class="btn" (click)="toggleFullscreen()" style="margin-left:auto; margin-top:3px; margin-right:4px; height:22px;">
+      {{ isFullscreen ? '⊠ Exit' : '⛶ Full' }}
+    </button>
+  </div>
+
+  <!-- DOS Tabs -->
+  <div class="dos-tabs">
+    <div *ngFor="let d of doseTabs" 
+         class="dos-tab" 
+         [class.active]="activeDos === d" 
+         (click)="activeDos = d">
+      {{ d }}
+    </div>
+    <div class="dos-tab add-dos">+ Add DOS</div>
+  </div>
+
+  <!-- Tab Content Area -->
+  <div class="coding-content">
+    <!-- Use the reusable component with different tabId configs -->
+    <app-coding-tab-content [tabId]="activeTab" [isFullscreen]="isFullscreen">
+    </app-coding-tab-content>
+  </div>
+
+  <!-- Summary Bar -->
+  <div class="summary-bar">
+    <div style="display:flex; gap:8px;">
+      <button class="btn blue">Submit</button>
+      <button class="btn blue">On Hold</button>
+      <button class="btn blue">Discard</button>
+      <button class="btn blue">Suspend</button>
+      <button class="btn blue">Notes</button>
+    </div>
+  </div>
+</div>

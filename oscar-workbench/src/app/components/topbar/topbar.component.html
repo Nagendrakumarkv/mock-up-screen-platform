@@ -1,0 +1,22 @@
+<div class="topbar">
+  <div class="logo">OS<span>CA</span>R</div>
+  <div class="topbar-divider"></div>
+  <div class="patient-chip">
+    <div>
+      <div class="name">{{ patient.name }}</div>
+      <div class="meta">DOB: {{ patient.dob }} &nbsp;|&nbsp; MRN: {{ patient.mrn }} &nbsp;|&nbsp; Plan: {{ patient.plan }}</div>
+    </div>
+  </div>
+  <div class="badge blue">RAF: {{ stats.raf }}</div>
+  <div class="badge green">HCCs: {{ stats.hccs }}</div>
+  <div class="badge orange">Gaps: {{ stats.gaps }}</div>
+  <div class="badge purple">CPTs: {{ stats.cpts }}</div>
+  <div class="topbar-divider"></div>
+  <div class="badge">Review Year: {{ stats.reviewYear }}</div>
+  <div class="topbar-right">
+    <button class="btn" (click)="showToast('Chart Details')">Chart Details</button>
+    <button class="btn" (click)="showToast('Chart History')">Chart History</button>
+    <button class="btn success" (click)="showToast('Quick Guide opened')">⎘ Quick Guide</button>
+    <div style="width:8px;height:8px;border-radius:50%;background:var(--success);margin-left:4px;" title="Auto-save: Active"></div>
+  </div>
+</div>

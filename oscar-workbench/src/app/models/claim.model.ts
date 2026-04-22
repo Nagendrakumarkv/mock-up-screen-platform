@@ -1,0 +1,30 @@
+export interface Claim {
+  claimId: string;
+  patientId: string;
+  patientName: string;
+  dob: string;
+  gender: string;
+  dos: string;
+  claimYear: string;
+  providerName: string;
+  providerNpi: string;
+  facilityName: string;
+  facilityType: string;
+  claimType: string;
+  icd10: string;
+  icdDesc: string;
+  cpt: string;
+  cptDesc: string;
+  pos: string;
+  status: string;
+  payerName: string;
+  payerType: string;
+  hcc: string;
+  rxHcc: string;
+  raf: string;
+  encType: string;
+  chronicFlag: string;
+  auditFlag: string;
+  sourceSys: string;
+  lastUpdated: string;
+}
