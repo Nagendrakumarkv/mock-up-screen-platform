@@ -1005,12 +1005,14 @@
                 <input class="form-control" placeholder="PDF p.2, Orders">
               </div>
             </div>
-            <div class="form-row" style="margin-bottom:6px">
-              <div style="display:flex;gap:4px">
-                <select class="form-select" style="flex:1"><option>Priority: High</option><option>Priority: Medium</option><option>Priority: Low</option></select>
-                <div style="width:120px">
-                  <input class="form-control" id="newCPTGapOpp" placeholder="Opportunity Flag">
-                </div>
+            <div class="form-row cols-3" style="margin-bottom:6px">
+              <div>
+                <div class="form-label">Priority</div>
+                <select class="form-select"><option>High</option><option>Medium</option><option>Low</option></select>
+              </div>
+              <div>
+                <div class="form-label">Opportunity Flag</div>
+                <input class="form-control" id="newCPTGapOpp" placeholder="Flag code...">
               </div>
             </div>
             <div class="form-row" style="margin-bottom:6px; display:flex; justify-content: flex-start;">
@@ -1534,7 +1536,7 @@ function renderCPTGaps() {
               </div>
               <div><div class="form-label">Revenue Impact</div><input class="form-control" id="editCPTGap_impact" value="${g.impact}"></div>
             </div>
-            <div class="form-row cols-2" style="margin-bottom:6px">
+            <div class="form-row cols-3" style="margin-bottom:6px">
               <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}" disabled></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
               <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
