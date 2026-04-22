@@ -835,7 +835,7 @@
                 <input class="form-control" placeholder="Notes...">
               </div>
               <div>
-                <div class="form-label">Opportunity Flag</div>
+                <div class="form-label">Opportunity Type</div>
                 <input class="form-control" id="newICDOpp" placeholder="Flag code...">
               </div>
             </div>
@@ -895,7 +895,7 @@
                 <input class="form-control" placeholder="PDF p.1, Labs">
               </div>
               <div>
-                <div class="form-label">Opportunity Flag</div>
+                <div class="form-label">Opportunity Type</div>
                 <input class="form-control" id="newGapOpp" placeholder="Flag code...">
               </div>
             </div>
@@ -959,7 +959,7 @@
                 <input class="form-control" placeholder="Notes...">
               </div>
               <div>
-                <div class="form-label">Opportunity Flag</div>
+                <div class="form-label">Opportunity Type</div>
                 <input class="form-control" id="newCPTOpp" placeholder="Flag code...">
               </div>
             </div>
@@ -1011,7 +1011,7 @@
                 <select class="form-select"><option>High</option><option>Medium</option><option>Low</option></select>
               </div>
               <div>
-                <div class="form-label">Opportunity Flag</div>
+                <div class="form-label">Opportunity Type</div>
                 <input class="form-control" id="newCPTGapOpp" placeholder="Flag code...">
               </div>
             </div>
@@ -1305,7 +1305,7 @@ function renderHCC() {
                 </select>
               </div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editICD_notes" value="${h.notes || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editICD_opp" value="${h.opp || ''}"></div>
+              <div><div class="form-label">Opportunity Type</div><input class="form-control" id="editICD_opp" value="${h.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1392,7 +1392,7 @@ function renderGaps() {
             <div class="form-row cols-3" style="margin-bottom:2px">
               <div><div class="form-label">Priority</div><select class="form-select" id="editGap_priority"><option ${g.priority === 'High' ? 'selected' : ''}>High</option><option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option><option ${g.priority === 'Low' ? 'selected' : ''}>Low</option></select></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editGap_evidence" value="${g.evidence || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editGap_opp" value="${g.opp || ''}"></div>
+              <div><div class="form-label">Opportunity Type</div><input class="form-control" id="editGap_opp" value="${g.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1471,7 +1471,7 @@ function renderCPT() {
             <div class="form-row cols-3" style="margin-bottom:2px">
               <div><div class="form-label">Expected $</div><input class="form-control" id="editCPT_expected" value="${c.expected || ''}"></div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editCPT_notes" value="${c.notes || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPT_opp" value="${c.opp || ''}"></div>
+              <div><div class="form-label">Opportunity Type</div><input class="form-control" id="editCPT_opp" value="${c.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1539,7 +1539,7 @@ function renderCPTGaps() {
             <div class="form-row cols-3" style="margin-bottom:6px">
               <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}" disabled></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
+              <div><div class="form-label">Opportunity Type</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
             </div>
             <div class="form-row" style="margin-bottom:2px">
               <div style="display:flex; gap:6px; justify-content:space-between; align-items:flex-end;">
