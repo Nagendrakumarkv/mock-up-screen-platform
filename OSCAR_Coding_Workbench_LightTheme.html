@@ -1264,7 +1264,7 @@ let editingICDIndex = -1;
 function renderHCC() {
   const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('hccEntries').innerHTML = hccData.map((h,i) => {
-    if (i === editingICDIndex && isFullscreen) {
+    if (i === editingICDIndex) {
       return `
         <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
@@ -1303,7 +1303,7 @@ function renderHCC() {
                 </select>
               </div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editICD_notes" value="${h.notes || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editICD_opp" value="${h.opp || ''}"></div>
+              <div class="fullscreen-only"><div class="form-label">Opportunity Flag</div><input class="form-control" id="editICD_opp" value="${h.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1360,7 +1360,7 @@ let editingGapIndex = -1;
 function renderGaps() {
   const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('gapEntries').innerHTML = gapData.map((g,i) => {
-    if (i === editingGapIndex && isFullscreen) {
+    if (i === editingGapIndex) {
       return `
         <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
@@ -1390,7 +1390,7 @@ function renderGaps() {
             <div class="form-row cols-3" style="margin-bottom:2px">
               <div><div class="form-label">Priority</div><select class="form-select" id="editGap_priority"><option ${g.priority === 'High' ? 'selected' : ''}>High</option><option ${g.priority === 'Medium' ? 'selected' : ''}>Medium</option><option ${g.priority === 'Low' ? 'selected' : ''}>Low</option></select></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editGap_evidence" value="${g.evidence || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editGap_opp" value="${g.opp || ''}"></div>
+              <div class="fullscreen-only"><div class="form-label">Opportunity Flag</div><input class="form-control" id="editGap_opp" value="${g.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1438,7 +1438,7 @@ let editingCPTIndex = -1;
 function renderCPT() {
   const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('cptEntries').innerHTML = cptData.map((c,i) => {
-    if (i === editingCPTIndex && isFullscreen) {
+    if (i === editingCPTIndex) {
       return `
         <div class="code-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:4px; margin-bottom: 6px; width: 100%;">
@@ -1469,7 +1469,7 @@ function renderCPT() {
             <div class="form-row cols-3" style="margin-bottom:2px">
               <div><div class="form-label">Expected $</div><input class="form-control" id="editCPT_expected" value="${c.expected || ''}"></div>
               <div><div class="form-label">Coder Notes</div><input class="form-control" id="editCPT_notes" value="${c.notes || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPT_opp" value="${c.opp || ''}"></div>
+              <div class="fullscreen-only"><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPT_opp" value="${c.opp || ''}"></div>
               <div>
                 <div class="form-label">&nbsp;</div>
                 <div style="display:flex; gap:6px;">
@@ -1511,7 +1511,7 @@ let editingCPTGapIndex = -1;
 function renderCPTGaps() {
   const isFullscreen = document.querySelector('.right-panel')?.classList.contains('fullscreen');
   document.getElementById('cptGapEntries').innerHTML = cptGapData.map((g,i) => {
-    if (i === editingCPTGapIndex && isFullscreen) {
+    if (i === editingCPTGapIndex) {
       return `
         <div class="gap-entry" style="flex-direction:column; align-items:stretch; border-color:var(--accent); background:#f4f8fd;">
           <div style="display:flex; align-items:center; gap:6px; margin-bottom: 6px;">
@@ -1537,7 +1537,7 @@ function renderCPTGaps() {
             <div class="form-row cols-2" style="margin-bottom:6px">
               <div><div class="form-label">Description</div><input class="form-control" id="editCPTGap_desc" value="${g.desc}" disabled></div>
               <div><div class="form-label">Evidence</div><input class="form-control" id="editCPTGap_evidence" value="${g.evidence || ''}"></div>
-              <div><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
+              <div class="fullscreen-only"><div class="form-label">Opportunity Flag</div><input class="form-control" id="editCPTGap_opp" value="${g.opp || ''}"></div>
             </div>
             <div class="form-row" style="margin-bottom:2px">
               <div style="display:flex; gap:6px; justify-content:space-between; align-items:flex-end;">
@@ -1595,7 +1595,7 @@ function expandCodingPanel() {
     if (btn) toggleRightPanelFullscreen(btn);
   }
 }
-function editICD(i) { expandCodingPanel(); editingICDIndex = i; renderHCC(); }
+function editICD(i) { editingICDIndex = i; renderHCC(); }
 function cancelEditICD() { editingICDIndex = -1; renderHCC(); }
 function updateICD(i) {
   hccData[i].icd = document.getElementById('editICD_icd').value;
@@ -1611,7 +1611,7 @@ function updateICD(i) {
   renderHCC();
   showToast('ICD updated successfully');
 }
-function editGap(i) { expandCodingPanel(); editingGapIndex = i; renderGaps(); }
+function editGap(i) { editingGapIndex = i; renderGaps(); }
 function cancelEditGap() { editingGapIndex = -1; renderGaps(); }
 function updateGap(i) {
   gapData[i].icd = document.getElementById('editGap_icd').value;
@@ -1627,7 +1627,7 @@ function updateGap(i) {
   showToast('Gap updated successfully');
 }
 
-function editCPT(i) { expandCodingPanel(); editingCPTIndex = i; renderCPT(); }
+function editCPT(i) { editingCPTIndex = i; renderCPT(); }
 function cancelEditCPT() { editingCPTIndex = -1; renderCPT(); }
 function updateCPT(i) {
   cptData[i].cpt = document.getElementById('editCPT_cpt').value;
@@ -1645,7 +1645,7 @@ function updateCPT(i) {
   showToast('CPT updated successfully');
 }
 
-function editCPTGap(i) { expandCodingPanel(); editingCPTGapIndex = i; renderCPTGaps(); }
+function editCPTGap(i) { editingCPTGapIndex = i; renderCPTGaps(); }
 function cancelEditCPTGap() { editingCPTGapIndex = -1; renderCPTGaps(); }
 function updateCPTGap(i) {
   cptGapData[i].cpt = document.getElementById('editCPTGap_cpt').value;
